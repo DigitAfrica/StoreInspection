@@ -1,0 +1,45 @@
+﻿@inject NavigationManager NavManager
+
+<div id="loginDiv" class="container">
+    <div class="row">
+        <div class="col-md-5 mx-auto">
+            <EditForm Model="loginDetails" OnInvalidSubmit="SubmitFailed" OnValidSubmit="Submit">
+                <DataAnnotationsValidator />
+
+                <InputText id="Email" class="form-control" @bind-Value="loginDetails.Email" placeholder="Email address" />
+                <ValidationMessage For="@(() => loginDetails.Email)" />
+                <br />
+
+                <InputText id="Password" class="form-control" @bind-Value="loginDetails.Password" type="password" placeholder="Password" />
+                <ValidationMessage For="@(() => loginDetails.Password)" />
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-anchor-circle-check" aria-hidden="true"></i> Sign In
+                </button>
+                <br />
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+@code {
+    private Login loginDetails { get; set; } = new Login();
+
+    protected void SubmitFailed()
+    {
+        
+    }
+
+    protected void Submit()
+    {
+        try
+        {
+            loginDetails.LoginAsAdmin(); //todo - remove when publishing
+
+            NavManager.NavigateTo($"home");
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+}
