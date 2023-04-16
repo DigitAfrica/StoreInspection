@@ -1,3 +1,23 @@
 ﻿@page "/home"
 
-<HomePage />
+@inject NavigationManager NavManager
+@inject Session session
+
+@code {
+    private User.Info user = new User.Info();
+
+    protected override void OnInitialized()
+    {
+        if (!session.IsLoggedIn())
+        {
+            NavManager.NavigateTo($"/logout");
+            return;
+        }
+
+        user = session._user;
+    }
+}
+
+<div>
+    <h3>Welcome @user.NameSurname</h3>
+</div>
