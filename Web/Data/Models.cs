@@ -8,7 +8,10 @@ public class User
         public string? Email { get; set; }
         public string? Name { get; set; }
         public string? Surname { get; set; }
-        public string? NameSurname { get { return Name + " " + Surname; } }
+
+        public string? NameSurname
+        { get { return Name + " " + Surname; } }
+
         public string? Token { get; set; }
     }
 
@@ -23,7 +26,7 @@ public class User
 
         public void LoginAsAdmin()
         {
-            Email = "abc@xyz.com";
+            Email = "mkhan@lodgeservice.com";
             Password = "Password";
         } //todo - remove when publishing
     }
@@ -36,4 +39,29 @@ public class Reply
     public string? Msg { get; set; }
     public string? Info { get; set; }
     public object? Data { get; set; }
+}
+
+public class Answers
+{
+    public class LodgeSecurity
+    {
+        public int Q1 { get; set; }
+        public int Q2 { get; set; }
+        public int Q3 { get; set; }
+        public int Q4 { get; set; }
+
+        public int Total()
+        {
+            return Q1 + Q2 + Q3 + Q4;
+        }
+
+        public bool Validate()
+        {
+            if (Q1 == -5 || Q2 == -5 || Q3 == -5 || Q4 == -5)
+            {
+                return false;
+            }
+            return true;
+        }
+    }
 }

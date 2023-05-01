@@ -20,6 +20,12 @@
         {
             loginDetails.LoginAsAdmin(); //todo - remove when publishing
             session.Login(loginDetails);
+
+            if (!session.IsLoggedIn())
+            {
+                return;
+            }
+
             NavManager.NavigateTo($"home");
         }
         catch

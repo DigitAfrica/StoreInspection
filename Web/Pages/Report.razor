@@ -1,0 +1,23 @@
+﻿@page "/report"
+
+@inject NavigationManager NavManager
+@inject Session session
+
+@code {
+    private int? total { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if (!session.IsLoggedIn())
+        {
+            NavManager.NavigateTo($"/logout");
+            return;
+        }
+
+        total = session.lodgeSecurityAnswers.Total();
+    }
+}
+
+<div>
+    <p>@total.ToString()</p>
+</div>

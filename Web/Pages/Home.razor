@@ -5,6 +5,7 @@
 
 @code {
     private User.Info user = new User.Info();
+    public string msg = "";
 
     protected override void OnInitialized()
     {
@@ -14,10 +15,137 @@
             return;
         }
 
+        session.lodgeSecurityAnswers.Q1 = -5;
+        session.lodgeSecurityAnswers.Q2 = -5;
+        session.lodgeSecurityAnswers.Q3 = -5;
+        session.lodgeSecurityAnswers.Q4 = -5;
+
         user = session._user;
+    }
+
+    private void GetDocsForStore(ChangeEventArgs e, int question)
+    {
+        try
+        {
+            var val = e!.Value!.ToString()!;
+
+            if (val == "-5")
+            {
+                return;
+            }
+
+            var value = int.Parse(val);
+            switch (question)
+            {
+                case 1: 
+                    session.lodgeSecurityAnswers.Q1 = value;
+                    break;
+                case 2:
+                    session.lodgeSecurityAnswers.Q2 = value;
+                    break;
+                case 3:
+                    session.lodgeSecurityAnswers.Q3 = value;
+                    break;
+                case 4:
+                    session.lodgeSecurityAnswers.Q4 = value;
+                    break;
+                default: break;
+            }
+        }
+        catch
+        {
+        }
+    }
+
+    private void Submit()
+    {
+        if (!session.lodgeSecurityAnswers.Validate())
+        {
+            msg = "please answer all questions";
+            StateHasChanged();
+            return;
+        }
+
+        NavManager.NavigateTo($"report");
     }
 }
 
 <div>
-    <h3>Welcome @user.NameSurname</h3>
+    <div class="row">
+        <div class="col-1">
+
+        </div>
+        <div class="col-10">
+            <h3 class="mb-3">Welcome @user.NameSurname</h3>
+            <div class="row">
+                <div class="col-6">
+                    <h6>
+                        Are all Security Officers wearing full uniform with their name badge?
+                    </h6>
+                    <select @onchange='(e => GetDocsForStore(e, 1))' class="form-control" id="SearchStore" name="SearchStore">
+                        <option value="-5" selected>Select an answer</option>
+                        <option value="2">Compliant</option>
+                        <option value="-1">Non-Compliance</option>
+                        <option value="0">Not Applicable</option>
+                    </select>
+
+                    <p>@session.lodgeSecurityAnswers.Q1</p>
+                </div>
+                <div class="col-6">
+                    <h6>
+                        Are Security Officers visible and vigilant whilst on duty at their post?
+                    </h6>
+                    <select @onchange='(e => GetDocsForStore(e, 2))' class="form-control" id="SearchStore" name="SearchStore">
+                        <option value="-5" selected>Select an answer</option>
+                        <option value="2">Compliant</option>
+                        <option value="-1">Non-Compliance</option>
+                        <option value="0">Not Applicable</option>
+                    </select>
+
+                    <p>@session.lodgeSecurityAnswers.Q2</p>
+                </div>
+
+                <div class="col-6">
+                    <h6>
+                        Are all Security Officers correctly trained for Nike Stores?
+                    </h6>
+                    <select @onchange='(e => GetDocsForStore(e, 3))' class="form-control" id="SearchStore" name="SearchStore">
+                        <option value="-5" selected>Select an answer</option>
+                        <option value="2">Compliant</option>
+                        <option value="-1">Non-Compliance</option>
+                        <option value="0">Not Applicable</option>
+                    </select>
+
+                    <p>@session.lodgeSecurityAnswers.Q3</p>
+                </div>
+                <div class="col-6">
+                    <h6>
+                        Are all radios, batteries and chargers in working order?
+                    </h6>
+                    <select @onchange='(e => GetDocsForStore(e, 4))' class="form-control" id="SearchStore" name="SearchStore">
+                        <option value="-5" selected>Select an answer</option>
+                        <option value="2">Compliant</option>
+                        <option value="-1">Non-Compliance</option>
+                        <option value="0">Not Applicable</option>
+                    </select>
+
+                    <p>@session.lodgeSecurityAnswers.Q4</p>
+                </div>
+            </div>
+            
+            <button @onclick=Submit>Submit</button>
+
+            @if (!string.IsNullOrEmpty(msg))
+            {
+                <p style="color:red">@msg</p>
+            }
+        </div>
+        <div class="col-1">
+        </div>
+    </div>
+
+    
+
+    
+    
 </div>
