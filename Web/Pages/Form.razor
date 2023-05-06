@@ -6,7 +6,9 @@
 @code {
     public List<string> questions = new List<string>();
     public string msg = "";
-    int defaultAnswer = -5;
+    int defaultScore = -5;
+    bool invalidSubmit = false;
+    QLodge qLodge = new QLodge();
 
     protected override void OnInitialized()
     {
@@ -15,38 +17,15 @@
             NavManager.NavigateTo($"/logout");
             return;
         }
-    }
 
-    private void SetAnswer(ChangeEventArgs e, int question)
-    {
-        try
-        {
-            var q = session._nikeForm.QLodge.Questions[question - 1];
-            var val = e!.Value!.ToString()!;
-
-            var number = defaultAnswer;
-            bool successParse = int.TryParse(val, out number);
-
-            if (!successParse)
-            {
-                q.Score = defaultAnswer;
-            }
-
-            var value = int.Parse(val);
-
-            q.Score = value;
-        }
-        catch
-        {
-            session._nikeForm.QLodge.Questions[question - 1].Score = defaultAnswer;
-        }
+        qLodge = session._nikeForm.QLodge;
     }
 
     private void Submit()
     {
-        if (!session._nikeForm.QLodge.Validate())
+        if (!qLodge.Validate())
         {
-            msg = "please answer all questions";
+            invalidSubmit = true;
             StateHasChanged();
             return;
         }
@@ -57,44 +36,51 @@
 
 <div>
     <div class="row">
-        <div class="col-1">
+        <div class="col-1"></div>
 
-        </div>
         <div class="col-10">
             <div class="row">
-                @foreach (var q in session._nikeForm.QLodge.Questions)
-                {
-                    <div class="col-6 mb-2">
-                        <h6>@q.Text</h6>
 
-                        @*@bind="q.Answer"*@
+                <EditForm Model="@qLodge.Questions" OnValidSubmit="@Submit">
+                    <DataAnnotationsValidator />
 
-                        <select @onchange='(e => SetAnswer(e, q.Num))' class="form-control">
-                            @foreach (var a in q.Answer.Answers)
-                            {
-                                <option value="@a.Value">@a.Name</option>
+                    @foreach (var q in qLodge.Questions)
+                    {
+                        <div class="mb-2">
+                            @{
+                                var validClass = "form-control";
+                                if (invalidSubmit && q.Score == -5) validClass = "form-control invalid";
                             }
-                        </select>
 
-                        @if (q.Score == -1)
-                        {
-                            <p>Upload Image</p>
-                            <p>Action</p>
-                            <p>Date</p>
-                        }
-                        <p>@q.Score</p>
-                    </div>
-                }
+                            <InputSelect @bind-Value="q.Score" class="@validClass">
+                                @foreach (var a in q.Answers)
+                                {
+                                    <option value="@a.Value">@a.Name</option>
+                                }
+                            </InputSelect>
+
+                            <ValidationMessage For="@(() => q.Score)" />
+
+                            @if (q.Score == -1)
+                            {
+                                <p>Upload Image</p>
+                                <p>Action</p>
+                                <p>Date</p>
+                            }
+                            <p>@q.Score</p>
+                        </div>
+                    }
+                </EditForm>
             </div>
             
-            <button @onclick=Submit>Submit</button>
+            <button type="submit" @onclick=Submit>Submit</button>
 
             @if (!string.IsNullOrEmpty(msg))
             {
                 <p style="color:red">@msg</p>
             }
         </div>
-        <div class="col-1">
-        </div>
+
+        <div class="col-1"></div>
     </div>
 </div>

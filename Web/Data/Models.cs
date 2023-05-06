@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using DataAnnotationsExtensions;
+using System.Text.RegularExpressions;
 
 namespace Web.Data;
 
@@ -62,10 +63,10 @@ public class QLodge
     {
         Questions = new List<Question>()
         {
-            new Question(){Num = 1, Text = "Are all Security Officers wearing full uniform with their name badge?" },
-            new Question(){Num = 2, Text = "Are Security Officers visible and vigilant whilst on duty at their post?" },
-            new Question(){Num = 3, Text = "Are all Security Officers correctly trained for Nike Stores?" },
-            new Question(){Num = 4, Text = "Are all radios, batteries and chargers in working order?"},
+            new Question(1, "Are all Security Officers wearing full uniform with their name badge?"),
+            new Question(2, "Are Security Officers visible and vigilant whilst on duty at their post?"),
+            new Question(3, "Are all Security Officers correctly trained for Nike Stores?"),
+            new Question(4, "Are all radios, batteries and chargers in working order?")
         };
     }
 
@@ -100,32 +101,39 @@ public class Question
     public int Num { get; set; } = 0;
     public string Text { get; set; } = "";
 
-    [RegularExpression(@"^-?[0-2]", ErrorMessage = "Please select an option")]
+    [Required]
+    //[RegularExpression(@"^-?[0-2]", ErrorMessage = "Please select an option")]
+    //[Range(typeof(int), "-2", "2", ErrorMessage = "Please select an option")]
+    [Min(-2, ErrorMessage = "Please select an option")]
     public int Score { get; set; } = -5;
 
-    public Answer Answer { get; set; } = new Answer();
-}
+    public List<NameValue> Answers { get; set; }
 
-public class Answer
-{
-    public Answer()
+    public Question(int num, string text)
     {
+        Num = num;
+        Text = text;
         Answers = new List<NameValue>()
         {
-            new NameValue(){ Name = "Select an answer", Value = -5},
-            new NameValue(){ Name = "Compliant", Value = 2},
-            new NameValue(){ Name = "Non - Compliance", Value = -1},
-            new NameValue(){ Name = "Not Applicable", Value = 0},
+            new NameValue(-5, Text),
+            new NameValue(2, "Compliant"),
+            new NameValue(-1, "Non - Compliance"),
+            new NameValue(0, "Not Applicable"),
         };
     }
-
-    public List<NameValue> Answers { get; set; }
 }
 
 public class NameValue
 {
+    public NameValue(int value, string name)
+    {
+        Name = name;
+        Value = value;
+    }
+
     public string Name { get; set; } = "";
 
-    [RegularExpression(@"^-?[0-2]", ErrorMessage = "Please select an option")]
-    public int Value { get; set; } = -5;
+    [Required]
+    [Min(-2, ErrorMessage = "Please select an option")]
+    public int Value { get; set; }
 }
