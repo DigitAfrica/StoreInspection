@@ -3,8 +3,9 @@
 public class Session
 {
     public User.Info _user { get; set; } = new User.Info();
-    public Answers _answers { get; set; } = new Answers();
-    public Answers.LodgeSecurity lodgeSecurityAnswers = new Answers.LodgeSecurity();
+
+    public NikeForm _nikeForm { get; set; } = new NikeForm();
+
     public readonly Bll? _bll;
 
     public Session(Bll bll)
@@ -38,5 +39,6 @@ public class Session
     public void logOut()
     {
         _user = new User.Info();
+        _nikeForm = new NikeForm();
     }
 }

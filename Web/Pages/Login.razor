@@ -8,6 +8,7 @@
 
 @code {
     private User.Login loginDetails { get; set; } = new User.Login();
+    public string msg = "";
 
     protected void SubmitFailed()
     {
@@ -18,11 +19,13 @@
     {
         try
         {
-            loginDetails.LoginAsAdmin(); //todo - remove when publishing
+            //loginDetails.LoginAsAdmin(); //todo - remove when publishing
             session.Login(loginDetails);
 
             if (!session.IsLoggedIn())
             {
+                msg = "incorrect username or password";
+                StateHasChanged();
                 return;
             }
 
@@ -59,6 +62,13 @@
                     <i class="fa-solid fa-anchor-circle-check" aria-hidden="true"></i> Sign In
                 </button>
             </EditForm>
+            
+            <br />
+
+            @if (!string.IsNullOrEmpty(msg))
+            {
+                <p style="color:red">@msg</p>
+            }
         </div>
     </div>
 </div>

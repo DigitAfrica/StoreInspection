@@ -1,4 +1,6 @@
-﻿@code {
+﻿@inject Session session
+
+@code {
     private bool collapseNavMenu = true;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
@@ -8,10 +10,11 @@
         collapseNavMenu = !collapseNavMenu;
     }
 }
+
 <div>
     <div class="top-row ps-3 navbar navbar-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/home">Store Inspection</a>
+            <a class="navbar-brand" href="/home">Welcome @session._user.NameSurname</a>
             <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
                 <span class="navbar-toggler-icon"></span>
             </button>
