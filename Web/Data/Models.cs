@@ -1,7 +1,4 @@
-﻿using DataAnnotationsExtensions;
-using System.Text.RegularExpressions;
-
-namespace Web.Data;
+﻿namespace Web.Data;
 
 public class User
 {
@@ -46,20 +43,61 @@ public class Reply
 
 public class NikeForm
 {
-    public QLodge QLodge { get; set; } = new QLodge();
+    public QLodgeSecurity QLodgeSecurity { get; set; } = new QLodgeSecurity();
+    public QPhysicalSecurity QPhysicalSecurity { get; set; } = new QPhysicalSecurity();
 
     public int Total { get; set; } = 0;
 
     public void Sum()
     {
         Total = 0;
-        Total += QLodge.Total;
+        Total += QLodgeSecurity.Total;
+        Total += QPhysicalSecurity.Total;
     }
 }
 
-public class QLodge
+public class QPhysicalSecurity
 {
-    public QLodge()
+    public QPhysicalSecurity()
+    {
+        Questions = new List<Question>()
+        {
+            new Question(1, "Is the Alarm System working and used correctly daily?  Is the contact list up-to-date?"),
+            new Question(2, "Does the store have a panic button (connected to armed response, centre security)?"),
+            new Question(3, "Are the back door and the emergency doors alarmed when the store is open and trading?"),
+            new Question(4, "Is the perimeter security effective (check security gates, perimeter doors and fire escape)?")
+        };
+    }
+
+    public List<Question> Questions { get; set; }
+    public int Total { get; set; } = 0;
+
+    public void Sum()
+    {
+        Total = 0;
+        foreach (var q in Questions)
+        {
+            Total += q.Score;
+        }
+    }
+
+    public bool Validate()
+    {
+        foreach (var q in Questions)
+        {
+            if (q.Score == -5)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
+
+public class QLodgeSecurity
+{
+    public QLodgeSecurity()
     {
         Questions = new List<Question>()
         {
@@ -103,29 +141,28 @@ public class Question
 
     [Required]
     //[RegularExpression(@"^-?[0-2]", ErrorMessage = "Please select an option")]
-    //[Range(typeof(int), "-2", "2", ErrorMessage = "Please select an option")]
-    [Min(-2, ErrorMessage = "Please select an option")]
+    [Range(typeof(int), "-2", "2", ErrorMessage = "Please select an option")]
     public int Score { get; set; } = -5;
 
-    public List<NameValue> Answers { get; set; }
+    public List<Response> Answers { get; set; }
 
     public Question(int num, string text)
     {
         Num = num;
         Text = text;
-        Answers = new List<NameValue>()
+        Answers = new List<Response>()
         {
-            new NameValue(-5, Text),
-            new NameValue(2, "Compliant"),
-            new NameValue(-1, "Non - Compliance"),
-            new NameValue(0, "Not Applicable"),
+            new Response(-5, Text),
+            new Response(2, "Compliant"),
+            new Response(-1, "Non - Compliance"),
+            new Response(0, "Not Applicable"),
         };
     }
 }
 
-public class NameValue
+public class Response
 {
-    public NameValue(int value, string name)
+    public Response(int value, string name)
     {
         Name = name;
         Value = value;
@@ -134,6 +171,6 @@ public class NameValue
     public string Name { get; set; } = "";
 
     [Required]
-    [Min(-2, ErrorMessage = "Please select an option")]
+    [Range(typeof(int), "-2", "2", ErrorMessage = "Please select an option")]
     public int Value { get; set; }
 }

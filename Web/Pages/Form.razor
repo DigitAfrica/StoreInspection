@@ -8,7 +8,8 @@
     public string msg = "";
     int defaultScore = -5;
     bool invalidSubmit = false;
-    QLodge qLodge = new QLodge();
+    QLodgeSecurity qLodgeSecurity = new QLodgeSecurity();
+    QPhysicalSecurity qPhysicalSecurity = new QPhysicalSecurity();
 
     protected override void OnInitialized()
     {
@@ -18,12 +19,13 @@
             return;
         }
 
-        qLodge = session._nikeForm.QLodge;
+        qLodgeSecurity = session._nikeForm.QLodgeSecurity;
+        qPhysicalSecurity = session._nikeForm.QPhysicalSecurity;
     }
 
     private void Submit()
     {
-        if (!qLodge.Validate())
+        if (!qLodgeSecurity.Validate() || !qPhysicalSecurity.Validate())
         {
             invalidSubmit = true;
             StateHasChanged();
@@ -39,12 +41,13 @@
         <div class="col-1"></div>
 
         <div class="col-10">
-            <div class="row">
+            <div class="row mb-4">
 
-                <EditForm Model="@qLodge.Questions" OnValidSubmit="@Submit">
+                <h4>Lodge Security</h4>
+                <EditForm Model="@qLodgeSecurity.Questions" OnValidSubmit="@Submit">
                     <DataAnnotationsValidator />
 
-                    @foreach (var q in qLodge.Questions)
+                    @foreach (var q in qLodgeSecurity.Questions)
                     {
                         <div class="mb-2">
                             @{
@@ -61,14 +64,59 @@
 
                             <ValidationMessage For="@(() => q.Score)" />
 
-                            @if (q.Score == -1)
-                            {
-                                <p>Upload Image</p>
-                                <p>Action</p>
-                                <p>Date</p>
-                            }
+                            
                             <p>@q.Score</p>
                         </div>
+
+                        @if (q.Score == -1)
+                        {
+                            <div class="row mb-4">
+                                <div class="col-3"><button type="button">Upload</button></div>
+                                <div class="col-3"><input placeholder="Action" /></div>
+                                <div class="col-3"><input placeholder="Responsbile" /></div>
+                                <div class="col-3"><input type="date" /></div>
+                            </div>
+                        }
+                    }
+                </EditForm>
+            </div>
+
+            <div class="row">
+
+                <h4>Physical Security</h4>
+                <EditForm Model="@qPhysicalSecurity.Questions" OnValidSubmit="@Submit">
+                    <DataAnnotationsValidator />
+
+                    @foreach (var q in qPhysicalSecurity.Questions)
+                    {
+                        <div class="mb-2">
+                            @{
+                                var validClass = "form-control";
+                                if (invalidSubmit && q.Score == -5) validClass = "form-control invalid";
+                            }
+
+                            <InputSelect @bind-Value="q.Score" class="@validClass">
+                                @foreach (var a in q.Answers)
+                                {
+                                    <option value="@a.Value">@a.Name</option>
+                                }
+                            </InputSelect>
+
+                            <ValidationMessage For="@(() => q.Score)" />
+
+
+                            <p>@q.Score</p>
+                        </div>
+
+                        @if (q.Score == -1)
+                        {
+                            <div class="row mb-4">
+                                <div class="col-3"><button type="button">Upload</button></div>
+                                <div class="col-3"><input placeholder="Action" /></div>
+                                <div class="col-3"><input placeholder="Responsbile" /></div>
+                                <div class="col-3"><input type="date" /></div>
+                            </div>
+                        }
                     }
                 </EditForm>
             </div>

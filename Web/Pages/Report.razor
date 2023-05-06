@@ -16,17 +16,17 @@
             return;
         }
 
-        session._nikeForm.QLodge.Sum();
+        session._nikeForm.QLodgeSecurity.Sum();
 
-        qFailed = session._nikeForm.QLodge.Questions.Where(s => s.Score < 0).ToList();
-        qPass = session._nikeForm.QLodge.Questions.Where(s => s.Score > 0).ToList();
-        qNa = session._nikeForm.QLodge.Questions.Where(s => s.Score == 0).ToList();
+        qFailed = session._nikeForm.QLodgeSecurity.Questions.Where(s => s.Score < 0).ToList();
+        qPass = session._nikeForm.QLodgeSecurity.Questions.Where(s => s.Score > 0).ToList();
+        qNa = session._nikeForm.QLodgeSecurity.Questions.Where(s => s.Score == 0).ToList();
 
     }
 }
 
 <div>
-    <h3>Score for Lodge Questions: @session._nikeForm.QLodge.Total</h3>
+    <h3>Score for Lodge Questions: @session._nikeForm.QLodgeSecurity.Total</h3>
 
     <h6>Non - Compliance</h6>
     @foreach (var q in qFailed)

@@ -1,55 +1,85 @@
-﻿
+﻿@page "/formOld"
 
-                    @*
-                    <p>
-                        <label>
-                            Primary Classification:
-                            <InputSelect @bind-Value="starship.Classification">
-                                <option value="">Select classification ...</option>
-                                <option value="Exploration">Exploration</option>
-                                <option value="Diplomacy">Diplomacy</option>
-                                <option value="Defense">Defense</option>
-                            </InputSelect>
-                        </label>
-                    </p>
-                        <p>
-                        <label>
-                            Identifier:
-                            <InputText @bind-Value="starship.Identifier" />
-                        </label>
-                    </p>
-                    <p>
-                        <label>
-                            Description (optional):
-                            <InputTextArea @bind-Value="starship.Description" />
-                        </label>
-                    </p>
-                    
-                    <p>
-                        <label>
-                            Maximum Accommodation:
-                            <InputNumber @bind-Value="starship.MaximumAccommodation" />
-                        </label>
-                    </p>
-                    <p>
-                        <label>
-                            Engineering Approval:
-                            <InputCheckbox @bind-Value="starship.IsValidatedDesign" />
-                        </label>
-                    </p>
-                    <p>
-                        <label>
-                            Production Date:
-                            <InputDate @bind-Value="starship.ProductionDate" />
-                        </label>
-                    </p>
+@inject NavigationManager NavManager
+@inject Session session
 
-                    <button type="submit">Submit</button>
+@code {
+    public List<string> questions = new List<string>();
+    public string msg = "";
+    int defaultAnswer = -5;
 
-                    <p>
-                        <a href="http://www.startrek.com/">Star Trek</a>,
-                        ©1966-2019 CBS Studios, Inc. and
-                        <a href="https://www.paramount.com">Paramount Pictures</a>
-                    </p>*@
+    protected override void OnInitialized()
+    {
+        if (!session.IsLoggedIn())
+        {
+            NavManager.NavigateTo($"/logout");
+            return;
+        }
+    }
 
-            
+    private void SetAnswer(ChangeEventArgs e, int question)
+    {
+        var val = e!.Value!.ToString()!;
+
+        var number = defaultAnswer;
+        bool successParse = int.TryParse(val, out number);
+    }
+}
+
+<select @onchange='(e => SetAnswer(e, 1))' class="form-control">
+    <option value="1">Option 1</option>
+    <option value="Two">Option 2</option>
+    <option value="3">Option 3</option>
+</select>
+
+@*
+<p>
+    <label>
+        Primary Classification:
+        <InputSelect @bind-Value="starship.Classification">
+            <option value="">Select classification ...</option>
+            <option value="Exploration">Exploration</option>
+            <option value="Diplomacy">Diplomacy</option>
+            <option value="Defense">Defense</option>
+        </InputSelect>
+    </label>
+</p>
+    <p>
+    <label>
+        Identifier:
+        <InputText @bind-Value="starship.Identifier" />
+    </label>
+</p>
+<p>
+    <label>
+        Description (optional):
+        <InputTextArea @bind-Value="starship.Description" />
+    </label>
+</p>
+
+<p>
+    <label>
+        Maximum Accommodation:
+        <InputNumber @bind-Value="starship.MaximumAccommodation" />
+    </label>
+</p>
+<p>
+    <label>
+        Engineering Approval:
+        <InputCheckbox @bind-Value="starship.IsValidatedDesign" />
+    </label>
+</p>
+<p>
+    <label>
+        Production Date:
+        <InputDate @bind-Value="starship.ProductionDate" />
+    </label>
+</p>
+
+<button type="submit">Submit</button>
+
+<p>
+    <a href="http://www.startrek.com/">Star Trek</a>,
+    ©1966-2019 CBS Studios, Inc. and
+    <a href="https://www.paramount.com">Paramount Pictures</a>
+</p>*@
