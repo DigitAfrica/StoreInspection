@@ -48,7 +48,7 @@
 
                     @foreach (var q in qLodgeSecurity.Questions)
                     {
-                        <Web.Components.NikeQ invalidSubmit=@invalidSubmit q=q/>
+                        <Web.Components.NikeForm.NikeQ invalidSubmit=@invalidSubmit q=q />
                     }
                 </EditForm>
             </div>
@@ -60,7 +60,7 @@
 
                     @foreach (var q in qPhysicalSecurity.Questions)
                     {
-                        <Web.Components.NikeQ invalidSubmit=@invalidSubmit q=q />
+                        <Web.Components.NikeForm.NikeQ invalidSubmit=@invalidSubmit q=q />
                     }
                 </EditForm>
             </div>

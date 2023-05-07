@@ -9,6 +9,9 @@ public class NikeForm
 
     public void Sum()
     {
+        QLodgeSecurity.Sum();
+        QPhysicalSecurity.Sum();
+
         Total = 0;
         Total += QLodgeSecurity.Total;
         Total += QPhysicalSecurity.Total;
@@ -33,17 +36,17 @@ public class QLodgeSecurity
     public List<string> listQuestions = new List<string>()
     {
         "Are all Security Officers wearing full uniform with their name badge?",
-        "Are Security Officers visible and vigilant whilst on duty at their post?",
-        "Are all Security Officers correctly trained for Nike Stores?",
-        "Are all radios, batteries and chargers in working order?",
-        "Is the security team making regular shoplifting preventions?",
-        "Has the store been issued with relevant registers (OB Book, Visitors, Staff Purchases)?",
-        "Are the Security Officers randomly polygraph tested every 6 months?",
-        "Is the Security Officer present at the front door?",
-        "Is the visitors register used and kept up-to-date at the staff entrance?",
-        "Are security meetings held with the management team on a regular basis?",
-        "Are Lodge Employees extra vigilant during high-risk times (CIT, opening & closing times)? Security posted outside the store at opening and closing times?",
-        "Are staff purchases checked and recorded by the Security?",
+        //"Are Security Officers visible and vigilant whilst on duty at their post?",
+        //"Are all Security Officers correctly trained for Nike Stores?",
+        //"Are all radios, batteries and chargers in working order?",
+        //"Is the security team making regular shoplifting preventions?",
+        //"Has the store been issued with relevant registers (OB Book, Visitors, Staff Purchases)?",
+        //"Are the Security Officers randomly polygraph tested every 6 months?",
+        //"Is the Security Officer present at the front door?",
+        //"Is the visitors register used and kept up-to-date at the staff entrance?",
+        //"Are security meetings held with the management team on a regular basis?",
+        //"Are Lodge Employees extra vigilant during high-risk times (CIT, opening & closing times)? Security posted outside the store at opening and closing times?",
+        //"Are staff purchases checked and recorded by the Security?",
         "Are staff items / apparel declared before entering the store - checked by Security?"
     };
 
@@ -88,11 +91,11 @@ public class QPhysicalSecurity
     public List<string> listQuestions = new List<string>()
     {
         "Is the Alarm System working and used correctly daily?  Is the contact list up-to-date?",
-        "Does the store have a panic button (connected to armed response, centre security)?",
-        "Are the back door and the emergency doors alarmed when the store is open and trading?",
-        "Is the perimeter security effective (check security gates, perimeter doors and fire escape)?",
-        "Is the CCTV system working and recording correctly?",
-        "Are all CCTV Cameras and devices working correctly?",
+        //"Does the store have a panic button (connected to armed response, centre security)?",
+        //"Are the back door and the emergency doors alarmed when the store is open and trading?",
+        //"Is the perimeter security effective (check security gates, perimeter doors and fire escape)?",
+        //"Is the CCTV system working and recording correctly?",
+        //"Are all CCTV Cameras and devices working correctly?",
         "Is the cash office closed and only accessible by managers?"
     };
 

@@ -1,0 +1,22 @@
+﻿@code {
+    [Parameter] public Question q { get; set; }
+}
+
+<div>
+    @{
+        var color = "";
+        if (q.Score > 0)
+        {
+            color = "green";
+        }
+        else if (q.Score == 0)
+        {
+            color = "blue";
+        }
+        else
+        {
+            color = "red";
+        }
+        <p style="color:@color">@q.Text</p>
+    }
+</div>

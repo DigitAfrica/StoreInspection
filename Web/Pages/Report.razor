@@ -4,9 +4,7 @@
 @inject Session session
 
 @code {
-    public List<Question> qFailed = new List<Question>();
-    public List<Question> qPass = new List<Question>();
-    public List<Question> qNa = new List<Question>();
+    public NikeForm report { get; set; } = new NikeForm();
 
     protected override void OnInitialized()
     {
@@ -16,33 +14,112 @@
             return;
         }
 
-        session._nikeForm.QLodgeSecurity.Sum();
-
-        qFailed = session._nikeForm.QLodgeSecurity.Questions.Where(s => s.Score < 0).ToList();
-        qPass = session._nikeForm.QLodgeSecurity.Questions.Where(s => s.Score > 0).ToList();
-        qNa = session._nikeForm.QLodgeSecurity.Questions.Where(s => s.Score == 0).ToList();
-
+        report = session._nikeForm;
+        report.Sum();
+        //session._nikeForm.QLodgeSecurity.Sum();
     }
 }
 
 <div>
-    <h3>Score for Lodge Questions: @session._nikeForm.QLodgeSecurity.Total</h3>
+    <div>
+        <h1>LPA</h1>
+        <h2>Loss prevention awareness</h2>
 
-    <h6>Non - Compliance</h6>
-    @foreach (var q in qFailed)
-    {
-        <p style="color:red">@q.Text</p>
-    }
+        <br />
+    </div> @*Banner*@
 
-    <h6>Compliant</h6>
-    @foreach (var q in qPass)
-    {
-        <p style="color:green">@q.Text</p>
-    }
-    
-    <h6>Not Applicable</h6>
-    @foreach (var q in qNa)
-    {
-        <p style="color:blue">@q.Text</p>
-    }
+    <div>
+        <div class="row">
+            <div class="col-6">Client</div>
+            <div class="col-6">Nike</div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">Store</div>
+            <div class="col-6">?</div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">Audit type</div>
+            <div class="col-6">Nike</div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">Date</div>
+            <div class="col-6">@DateTime.Now.ToString()</div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">Previous score</div>
+            <div class="col-6">?</div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">Current shrinkage</div>
+            <div class="col-6">Nike</div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">Address</div>
+            <div class="col-6">?</div>
+        </div>
+
+        <br />
+    </div> @*Heading*@
+
+    <div>
+        <h3 style="color:red">Non - Compliance</h3>
+        @foreach (var q in report.QLodgeSecurity.Questions.Where(s => s.Score < 0).ToList())
+        {
+            <p>@q.Text</p>
+        }
+
+        @foreach (var q in report.QPhysicalSecurity.Questions.Where(s => s.Score < 0).ToList())
+        {
+            <p>@q.Text</p>
+        }
+
+        <br />
+    </div> @*Non - Compliance*@
+
+    <div>
+        <h3>Score Summary</h3>
+        <div class="row">
+            <div class="col-6">Lodge Security</div>
+            <div class="col-6">@report.QLodgeSecurity.Total</div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">Physical Security</div>
+            <div class="col-6">@report.QPhysicalSecurity.Total</div>
+        </div>
+
+        <div class="row" style="font-weight: bold">
+            <div class="col-6">total</div>
+            <div class="col-6">@report.Total</div>
+        </div>
+
+        <br />
+    </div> @*Scores Summary*@
+
+
+    <div>
+        <h3>Score for Lodge Security Questions: @report.QLodgeSecurity.Total</h3>
+        @foreach (var q in report.QLodgeSecurity.Questions)
+        {
+            <Web.Components.NikeReport.NikeR q="q" />
+        }
+
+        <br />
+    </div>
+
+    <div>
+        <h3>Score for Physical Security Questions: @report.QPhysicalSecurity.Total</h3>
+        @foreach (var q in report.QPhysicalSecurity.Questions)
+        {
+            <Web.Components.NikeReport.NikeR q="q" />
+        }
+
+        <br />
+    </div>
 </div>
