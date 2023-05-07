@@ -42,81 +42,25 @@
 
         <div class="col-10">
             <div class="row mb-4">
-
                 <h4>Lodge Security</h4>
                 <EditForm Model="@qLodgeSecurity.Questions" OnValidSubmit="@Submit">
                     <DataAnnotationsValidator />
 
                     @foreach (var q in qLodgeSecurity.Questions)
                     {
-                        <div class="mb-2">
-                            @{
-                                var validClass = "form-control";
-                                if (invalidSubmit && q.Score == -5) validClass = "form-control invalid";
-                            }
-
-                            <InputSelect @bind-Value="q.Score" class="@validClass">
-                                @foreach (var a in q.Answers)
-                                {
-                                    <option value="@a.Value">@a.Name</option>
-                                }
-                            </InputSelect>
-
-                            <ValidationMessage For="@(() => q.Score)" />
-
-                            
-                            <p>@q.Score</p>
-                        </div>
-
-                        @if (q.Score == -1)
-                        {
-                            <div class="row mb-4">
-                                <div class="col-3"><button type="button">Upload</button></div>
-                                <div class="col-3"><input placeholder="Action" /></div>
-                                <div class="col-3"><input placeholder="Responsbile" /></div>
-                                <div class="col-3"><input type="date" /></div>
-                            </div>
-                        }
+                        <Web.Components.NikeQ invalidSubmit=@invalidSubmit q=q/>
                     }
                 </EditForm>
             </div>
 
             <div class="row">
-
                 <h4>Physical Security</h4>
                 <EditForm Model="@qPhysicalSecurity.Questions" OnValidSubmit="@Submit">
                     <DataAnnotationsValidator />
 
                     @foreach (var q in qPhysicalSecurity.Questions)
                     {
-                        <div class="mb-2">
-                            @{
-                                var validClass = "form-control";
-                                if (invalidSubmit && q.Score == -5) validClass = "form-control invalid";
-                            }
-
-                            <InputSelect @bind-Value="q.Score" class="@validClass">
-                                @foreach (var a in q.Answers)
-                                {
-                                    <option value="@a.Value">@a.Name</option>
-                                }
-                            </InputSelect>
-
-                            <ValidationMessage For="@(() => q.Score)" />
-
-
-                            <p>@q.Score</p>
-                        </div>
-
-                        @if (q.Score == -1)
-                        {
-                            <div class="row mb-4">
-                                <div class="col-3"><button type="button">Upload</button></div>
-                                <div class="col-3"><input placeholder="Action" /></div>
-                                <div class="col-3"><input placeholder="Responsbile" /></div>
-                                <div class="col-3"><input type="date" /></div>
-                            </div>
-                        }
+                        <Web.Components.NikeQ invalidSubmit=@invalidSubmit q=q />
                     }
                 </EditForm>
             </div>

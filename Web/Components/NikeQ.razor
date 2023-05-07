@@ -1,0 +1,36 @@
+﻿
+@code {
+    [Parameter] public bool invalidSubmit { get; set; }
+    [Parameter] public Question q { get; set; }
+}
+
+
+<div class="mb-2">
+    @{
+        var validClass = "form-control";
+
+        if (invalidSubmit && q.Score == -5) validClass = "form-control invalid";
+    }
+
+    <InputSelect @bind-Value="q.Score" class="@validClass">
+        @foreach (var a in q.Answers)
+        {
+            <option value="@a.Value">@a.Name</option>
+        }
+    </InputSelect>
+
+    <ValidationMessage For="@(() => q.Score)" />
+
+
+    @*<p>@q.Score</p>*@
+</div>
+
+@if (q.Score == -1)
+{
+    <div class="row mb-4">
+        <div class="col-3"><button type="button">Upload</button></div>
+        <div class="col-3"><input placeholder="Action" /></div>
+        <div class="col-3"><input placeholder="Responsbile" /></div>
+        <div class="col-3"><input type="date" /></div>
+    </div>
+}
