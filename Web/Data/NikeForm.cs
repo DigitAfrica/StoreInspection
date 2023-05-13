@@ -13,7 +13,7 @@ public class NikeForm
         QPhysicalSecurity.Sum();
 
         Total = 0;
-        Total += QLodgeSecurity.Total;
+        Total += QLodgeSecurity.ScoreTotal;
         Total += QPhysicalSecurity.Total;
     }
 }
@@ -31,7 +31,9 @@ public class QLodgeSecurity
     }
 
     public List<Question> Questions { get; set; }
-    public int Total { get; set; } = 0;
+    public int ScoreTotal { get; set; } = 0;
+    public int ScoreMax { get; set; } = 0;
+    public int ScorePercent { get; set; } = 0;
 
     public List<string> listQuestions = new List<string>()
     {
@@ -45,18 +47,27 @@ public class QLodgeSecurity
         //"Is the Security Officer present at the front door?",
         //"Is the visitors register used and kept up-to-date at the staff entrance?",
         //"Are security meetings held with the management team on a regular basis?",
-        //"Are Lodge Employees extra vigilant during high-risk times (CIT, opening & closing times)? Security posted outside the store at opening and closing times?",
-        //"Are staff purchases checked and recorded by the Security?",
+        "Are Lodge Employees extra vigilant during high-risk times (CIT, opening & closing times)? Security posted outside the store at opening and closing times?",
+        "Are staff purchases checked and recorded by the Security?",
         "Are staff items / apparel declared before entering the store - checked by Security?"
     };
 
     public void Sum()
     {
-        Total = 0;
+        ScoreMax = 0;
+        ScoreTotal = 0;
         foreach (var q in Questions)
         {
-            Total += q.Score;
+            if (q.Score != 0)
+            {
+                ScoreMax += q.MaxPossibleValue;
+            } // Na questions are not counted. only compliance and non compliance
+
+            ScoreTotal += q.Score;
         }
+
+        ScorePercent = ScoreTotal * 100 / ScoreMax;
+        if (ScoreTotal % ScoreMax != 0) ScorePercent++;
     }
 
     public bool Validate()
@@ -90,7 +101,7 @@ public class QPhysicalSecurity
 
     public List<string> listQuestions = new List<string>()
     {
-        "Is the Alarm System working and used correctly daily?  Is the contact list up-to-date?",
+        //"Is the Alarm System working and used correctly daily?  Is the contact list up-to-date?",
         //"Does the store have a panic button (connected to armed response, centre security)?",
         //"Are the back door and the emergency doors alarmed when the store is open and trading?",
         //"Is the perimeter security effective (check security gates, perimeter doors and fire escape)?",
@@ -131,6 +142,8 @@ public class Question
     //[RegularExpression(@"^-?[0-2]", ErrorMessage = "Please select an option")]
     [Range(typeof(int), "-2", "2", ErrorMessage = "Please select an option")]
     public int Score { get; set; } = -5;
+
+    public int MaxPossibleValue { get; set; } = 2;
 
     public List<Response> Answers { get; set; }
 

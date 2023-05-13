@@ -10,6 +10,7 @@
     bool invalidSubmit = false;
     QLodgeSecurity qLodgeSecurity = new QLodgeSecurity();
     QPhysicalSecurity qPhysicalSecurity = new QPhysicalSecurity();
+    public int setCount = 1;
 
     protected override void OnInitialized()
     {
@@ -34,6 +35,15 @@
 
         NavManager.NavigateTo($"report");
     }
+
+    private void CompleteSet(string qSet)
+    {
+        setCount++;
+        if (setCount > 2)
+        {
+            Submit();
+        }
+    }
 }
 
 <div>
@@ -41,30 +51,23 @@
         <div class="col-1"></div>
 
         <div class="col-10">
-            <div class="row mb-4">
-                <h4>Lodge Security</h4>
-                <EditForm Model="@qLodgeSecurity.Questions" OnValidSubmit="@Submit">
-                    <DataAnnotationsValidator />
-
-                    @foreach (var q in qLodgeSecurity.Questions)
-                    {
-                        <Web.Components.NikeForm.NikeQ invalidSubmit=@invalidSubmit q=q />
-                    }
-                </EditForm>
-            </div>
-
-            <div class="row">
-                <h4>Physical Security</h4>
-                <EditForm Model="@qPhysicalSecurity.Questions" OnValidSubmit="@Submit">
-                    <DataAnnotationsValidator />
-
-                    @foreach (var q in qPhysicalSecurity.Questions)
-                    {
-                        <Web.Components.NikeForm.NikeQ invalidSubmit=@invalidSubmit q=q />
-                    }
-                </EditForm>
-            </div>
+            @{
+                var btnText = "";
+                var listQuestions = new List<Question>();
+                if (setCount < 2)
+                {
+                    btnText = "Next";
+                    listQuestions = qLodgeSecurity.Questions;
+                }
+                else
+                {
+                    btnText = "Submit";
+                    listQuestions = qPhysicalSecurity.Questions;
+                }
+            }
             
+            <NikeQs Confirmed="CompleteSet" Title="Lodge Security" invalidSubmit=@invalidSubmit questions="@listQuestions" btnText="@btnText" />
+
             <button type="submit" @onclick=Submit>Submit</button>
 
             @if (!string.IsNullOrEmpty(msg))

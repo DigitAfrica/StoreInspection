@@ -85,8 +85,17 @@
     <div>
         <h3>Score Summary</h3>
         <div class="row">
-            <div class="col-6">Lodge Security</div>
-            <div class="col-6">@report.QLodgeSecurity.Total</div>
+            <div class="col-3">Set</div>
+            <div class="col-3">ScoreTotal</div>
+            <div class="col-3">ScoreMax</div>
+            <div class="col-3">ScorePercent</div>
+        </div>
+
+        <div class="row">
+            <div class="col-3">Lodge Security</div>
+            <div class="col-3">@report.QLodgeSecurity.ScoreTotal</div>
+            <div class="col-3">@report.QLodgeSecurity.ScoreMax</div>
+            <div class="col-3">@report.QLodgeSecurity.ScorePercent</div>
         </div>
 
         <div class="row">
@@ -104,7 +113,7 @@
 
 
     <div>
-        <h3>Score for Lodge Security Questions: @report.QLodgeSecurity.Total</h3>
+        <h3>Score for Lodge Security Questions: @report.QLodgeSecurity.ScoreTotal</h3>
         @foreach (var q in report.QLodgeSecurity.Questions)
         {
             <Web.Components.NikeReport.NikeR q="q" />
