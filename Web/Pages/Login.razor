@@ -19,12 +19,11 @@
     {
         try
         {
-            //loginDetails.LoginAsAdmin(); //todo - remove when publishing
             session.Login(loginDetails);
 
             if (!session.IsLoggedIn())
             {
-                msg = "incorrect username or password";
+                msg = session._notyf.Msg;
                 StateHasChanged();
                 return;
             }
@@ -39,6 +38,7 @@
     protected override void OnInitialized()
     {
         session.logOut();
+        session._notyf = new User.Notyf();
     }
 }
 

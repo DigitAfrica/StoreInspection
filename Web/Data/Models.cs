@@ -30,12 +30,19 @@ public class User
             Password = "Password";
         } //todo - remove when publishing
     }
+
+    public class Notyf
+    {
+        public bool Win { get; set; } = false;
+        public bool Fail { get; set; } = false;
+        public string Msg { get; set; } = "";
+    }
 }
 
 public class Reply
 {
-    public bool Win { get; set; } = true;
-    public bool Fail { get; set; } = true;
+    public bool Win { get; set; } = false;
+    public bool Fail { get; set; } = false;
     public string? Msg { get; set; }
     public string? Info { get; set; }
     public object? Data { get; set; }
