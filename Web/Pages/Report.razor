@@ -16,7 +16,6 @@
 
         report = session._nikeForm;
         report.Sum();
-        //session._nikeForm.QLodgeSecurity.Sum();
     }
 }
 
@@ -24,7 +23,6 @@
     <div>
         <h1>LPA</h1>
         <h2>Loss prevention awareness</h2>
-
         <br />
     </div> @*Banner*@
 
@@ -69,16 +67,13 @@
 
     <div>
         <h3 style="color:red">Non - Compliance</h3>
-        @foreach (var q in report.QLodgeSecurity.Questions.Where(s => s.Score < 0).ToList())
+        @foreach (var qSet in report.ListQSet)
         {
-            <p>@q.Text</p>
+            @foreach (var q in qSet.Questions.Where(s => s.Score < 0).ToList())
+            {
+                <p>@q.Text</p>
+            }
         }
-
-        @foreach (var q in report.QPhysicalSecurity.Questions.Where(s => s.Score < 0).ToList())
-        {
-            <p>@q.Text</p>
-        }
-
         <br />
     </div> @*Non - Compliance*@
 
@@ -91,44 +86,25 @@
             <div class="col-3">ScorePercent</div>
         </div>
 
-        <div class="row">
-            <div class="col-3">Lodge Security</div>
-            <div class="col-3">@report.QLodgeSecurity.ScoreTotal</div>
-            <div class="col-3">@report.QLodgeSecurity.ScoreMax</div>
-            <div class="col-3">@report.QLodgeSecurity.ScorePercent</div>
-        </div>
-
-        <div class="row">
-            <div class="col-6">Physical Security</div>
-            <div class="col-6">@report.QPhysicalSecurity.Total</div>
-        </div>
-
-        <div class="row" style="font-weight: bold">
-            <div class="col-6">total</div>
-            <div class="col-6">@report.Total</div>
-        </div>
-
+        @foreach (var qSet in report.ListQSet)
+        {
+            <div class="row">
+                <div class="col-3">@qSet.Title</div>
+                <div class="col-3">@qSet.ScoreTotal</div>
+                <div class="col-3">@qSet.ScoreMax</div>
+                <div class="col-3">@qSet.ScorePercent</div>
+            </div>
+        }
         <br />
     </div> @*Scores Summary*@
 
 
     <div>
-        <h3>Score for Lodge Security Questions: @report.QLodgeSecurity.ScoreTotal</h3>
-        @foreach (var q in report.QLodgeSecurity.Questions)
+        @foreach (var qSet in report.ListQSet)
         {
-            <Web.Components.NikeReport.NikeR q="q" />
+            <h3>Score for @qSet.Title Questions: @qSet.ScoreTotal</h3>
+            @foreach (var q in qSet.Questions) { <Web.Components.NikeReport.NikeR q="q" /> }
         }
-
-        <br />
-    </div>
-
-    <div>
-        <h3>Score for Physical Security Questions: @report.QPhysicalSecurity.Total</h3>
-        @foreach (var q in report.QPhysicalSecurity.Questions)
-        {
-            <Web.Components.NikeReport.NikeR q="q" />
-        }
-
         <br />
     </div>
 </div>

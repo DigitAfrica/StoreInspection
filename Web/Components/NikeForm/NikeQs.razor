@@ -2,25 +2,21 @@
 @code {
     [Parameter] public EventCallback<string> Confirmed { get; set; }
     [Parameter] public bool invalidSubmit { get; set; }
-    [Parameter] public List<Question> questions { get; set; }
-    [Parameter] public string Title { get; set; }
     [Parameter] public string btnText { get; set; }
+    [Parameter] public QSet QSet { get; set; }
+
 
     public async Task Submitting()
     {
-        await Confirmed.InvokeAsync(Title);
+        await Confirmed.InvokeAsync(QSet.Title);
     }
 }
 
 <div class="row mb-4">
-    <h4>@Title</h4>
-    <EditForm Model="@questions" OnValidSubmit="@Submitting">
+    <h4>@QSet.Title</h4>
+    <EditForm Model="@QSet.Questions" OnValidSubmit="@Submitting">
         <DataAnnotationsValidator />
-
-        @foreach (var q in questions)
-        {
-            <NikeQ invalidSubmit=@invalidSubmit q=q />
-        }
+        @foreach (var q in QSet.Questions) { <NikeQ invalidSubmit=@invalidSubmit q=q /> }
     </EditForm>
 
     <button type="submit" @onclick=Submitting>@btnText</button>

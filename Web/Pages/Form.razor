@@ -8,9 +8,10 @@
     public string msg = "";
     int defaultScore = -5;
     bool invalidSubmit = false;
-    QLodgeSecurity qLodgeSecurity = new QLodgeSecurity();
-    QPhysicalSecurity qPhysicalSecurity = new QPhysicalSecurity();
-    public int setCount = 1;
+    List<QSet> listQSet = new List<QSet>();
+    public int setCount = 0;
+    public string submitBtn = "Next";
+    public int maxSet = 0;
 
     protected override void OnInitialized()
     {
@@ -20,28 +21,36 @@
             return;
         }
 
-        qLodgeSecurity = session._nikeForm.QLodgeSecurity;
-        qPhysicalSecurity = session._nikeForm.QPhysicalSecurity;
+        listQSet = session._nikeForm.ListQSet;
+        maxSet = listQSet.Count() - 1;
     }
 
     private void Submit()
     {
-        if (!qLodgeSecurity.Validate() || !qPhysicalSecurity.Validate())
+        // todo - confirm modal
+
+        NavManager.NavigateTo($"report");
+    }
+
+    private void CompleteSet()
+    {
+        if (!listQSet[setCount].Validate())
         {
             invalidSubmit = true;
             StateHasChanged();
             return;
         }
 
-        NavManager.NavigateTo($"report");
-    }
-
-    private void CompleteSet(string qSet)
-    {
-        setCount++;
-        if (setCount > 2)
+        if (setCount == maxSet) 
         {
-            Submit();
+            Submit(); // todo - confirm modal first
+            return;
+        }
+
+        setCount++;
+        if (setCount == maxSet)
+        {
+            submitBtn = "Submit";
         }
     }
 }
@@ -51,29 +60,9 @@
         <div class="col-1"></div>
 
         <div class="col-10">
-            @{
-                var btnText = "";
-                var listQuestions = new List<Question>();
-                if (setCount < 2)
-                {
-                    btnText = "Next";
-                    listQuestions = qLodgeSecurity.Questions;
-                }
-                else
-                {
-                    btnText = "Submit";
-                    listQuestions = qPhysicalSecurity.Questions;
-                }
-            }
-            
-            <NikeQs Confirmed="CompleteSet" Title="Lodge Security" invalidSubmit=@invalidSubmit questions="@listQuestions" btnText="@btnText" />
+            <NikeQs Confirmed="CompleteSet" invalidSubmit=@invalidSubmit btnText="@submitBtn" QSet="@listQSet[setCount]" />
 
-            <button type="submit" @onclick=Submit>Submit</button>
-
-            @if (!string.IsNullOrEmpty(msg))
-            {
-                <p style="color:red">@msg</p>
-            }
+            @if (!string.IsNullOrEmpty(msg)) { <p style="color:red">@msg</p> }
         </div>
 
         <div class="col-1"></div>
