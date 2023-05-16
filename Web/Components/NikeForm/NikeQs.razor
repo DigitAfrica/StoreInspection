@@ -16,7 +16,13 @@
     <h4>@QSet.Title</h4>
     <EditForm Model="@QSet.Questions" OnValidSubmit="@Submitting">
         <DataAnnotationsValidator />
-        @foreach (var q in QSet.Questions) { <NikeQ invalidSubmit=@invalidSubmit q=q /> }
+        @foreach (var q in QSet.Questions) 
+        {
+            <div class="mb-5">
+                <h6>@q.Text</h6>
+                <NikeQ invalidSubmit=@invalidSubmit q=q />
+            </div>
+        }
     </EditForm>
 
     <button type="submit" @onclick=Submitting>@btnText</button>
