@@ -2,6 +2,16 @@
 @code {
     [Parameter] public bool invalidSubmit { get; set; }
     [Parameter] public Question q { get; set; }
+
+    public void SubmitFailed()
+    {
+
+    }
+
+    public void Submit()
+    {
+        
+    }
 }
 
 
@@ -25,9 +35,21 @@
 @if (q.Score == -1)
 {
     <div class="row mb-4">
-        <div class="col-3"><input placeholder="Action" /></div>
-        <div class="col-3"><input placeholder="Responsbile" /></div>
-        <div class="col-3"><input type="date" /></div>
+        <div class="col-3">
+            <InputText id="Action" class="form-control" @bind-Value="q.Alert.Action" placeholder="Action" />
+            <ValidationMessage For="@(() => q.Alert.Action)" />
+        </div>
+
+        <div class="col-3">
+            <InputText id="Person" class="form-control" @bind-Value="q.Alert.Person" placeholder="Responsible" />
+            <ValidationMessage For="@(() => q.Alert.Person)" />
+        </div>
+
+        <div class="col-3">
+            <InputText id="Due" class="form-control" @bind-Value="q.Alert.Due" placeholder="Date" />
+            <ValidationMessage For="@(() => q.Alert.Due)" />
+        </div>
+
         <div class="col-3"><button type="button">Upload</button></div>
     </div>
 }

@@ -18,6 +18,7 @@ public class NikeForm
         };
     }
 
+    public string Form { get; set; } = "Nike";
     public List<QSet> ListQSet { get; set; }
     public int ScoreTotal { get; set; } = 0;
     public int ScoreMax { get; set; } = 0;
@@ -36,7 +37,8 @@ public class NikeForm
         }
 
         ScorePercent = (ScoreTotal * 100) / ScoreMax;
-        if ((ScoreTotal * 100) % ScoreMax != 0) ScorePercent++;
+        var scoreRemainder = (ScoreTotal * 100) % ScoreMax;
+        if (scoreRemainder != 0 && ScorePercent > 0) ScorePercent++;
     }
 }
 
@@ -73,7 +75,8 @@ public class QSet
         }
 
         ScorePercent = (ScoreTotal * 100) / ScoreMax;
-        if ((ScoreTotal * 100) % ScoreMax != 0) ScorePercent++;
+        var scoreRemainder = (ScoreTotal * 100) % ScoreMax;
+        if (scoreRemainder != 0 && ScorePercent > 0) ScorePercent++;
     }
 
     public bool Validate()
@@ -99,6 +102,7 @@ public class Question
     public int MaxPossibleValue { get; set; } = 2;
 
     public List<NameValue> Answers { get; set; }
+    public Alert Alert { get; set; } = new Alert(new QLink("", "", ""));
 
     public Question(int num, string text)
     {
@@ -127,4 +131,39 @@ public class NameValue
     [Required]
     [Range(typeof(int), "-2", "2", ErrorMessage = "Please select an option")]
     public int Value { get; set; }
+}
+
+public class Alert
+{
+    public Alert(QLink qL)
+    {
+        qLink = qL;
+    }
+
+    public QLink qLink { get; set; }
+
+    [Required]
+    public string Action { get; set; } = "";
+
+    [Required]
+    public string Person { get; set; } = "";
+
+    [Required]
+    public string Due { get; set; } = DateTime.Now.ToString("dd-MM-yyyy");
+
+    public byte[]? bytes { get; set; }
+}
+
+public class QLink
+{
+    public QLink(string form, string set, string question)
+    {
+        Form = form;
+        Set = set;
+        Question = question;
+    }
+
+    public string Form { get; set; }
+    public string Set { get; set; }
+    public string Question { get; set; }
 }
