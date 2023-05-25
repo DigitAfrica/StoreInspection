@@ -1,0 +1,42 @@
+﻿
+@code {
+    [Parameter] public NikeForm report { get; set; }
+}
+
+<div class="mb-3">
+    <table class="table table-striped table-sm" style="font-size: 12px;">
+        <tbody>
+            <tr class="tableRow">
+                <th scope="row">Client</th>
+                <td>Nike</td>
+                <td rowspan="7" style="text-align: center; font-size:180%; font-weight:bold">
+                    Scorecard: <br />@(report.ScorePercent)%
+                </td>
+            </tr>
+            <tr class="tableRow">
+                <th scope="row">Store</th>
+                <td>?</td>
+            </tr>
+            <tr class="tableRow">
+                <th scope="row">Audit type</th>
+                <td>Nike</td>
+            </tr>
+            <tr class="tableRow">
+                <th scope="row">Date</th>
+                <td>@DateTime.Now.ToString()</td>
+            </tr>
+            <tr class="tableRow">
+                <th scope="row">Previous score</th>
+                <td>?</td>
+            </tr>
+            <tr class="tableRow">
+                <th scope="row">Current shrinkage</th>
+                <td>?</td>
+            </tr>
+            <tr class="tableRow">
+                <th scope="row">Address</th>
+                <td>?</td>
+            </tr>
+        </tbody>
+    </table>
+</div> 

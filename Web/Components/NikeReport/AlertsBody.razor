@@ -1,0 +1,14 @@
+﻿@code {
+    [Parameter] public QSet qSet { get; set; }
+}
+
+@foreach (var q in qSet.Questions.Where(s => s.Score < 0).ToList())
+{
+    <tr class="tableRow">
+        <td><span class="redDot"></span></td>
+        <td>@q.Text</td>
+        <td>Fix</td>
+        <td>Me</td>
+        <td>@DateTime.Now.AddDays(7).ToString("dd-MM-yyyy")</td>
+    </tr>
+}

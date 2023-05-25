@@ -1,0 +1,14 @@
+﻿@code {
+    [Parameter] public Question q { get; set; }
+    public string dotColor { get; set; } = "redDot";
+}
+
+@{
+    if (q.Score > 0) { dotColor = "greenDot"; }
+    if (q.Score == 0) { dotColor = "blueDot"; }
+    if (q.Score < 0) { dotColor = "redDot"; }
+    <tr class="tableRow">
+        <td><span class="@dotColor"></span></td>
+        <td>@q.Text</td>
+    </tr>
+}

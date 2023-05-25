@@ -20,17 +20,14 @@
     </InputSelect>
 
     <ValidationMessage For="@(() => q.Score)" />
-
-
-    @*<p>@q.Score</p>*@
 </div>
 
 @if (q.Score == -1)
 {
     <div class="row mb-4">
-        <div class="col-3"><button type="button">Upload</button></div>
         <div class="col-3"><input placeholder="Action" /></div>
         <div class="col-3"><input placeholder="Responsbile" /></div>
         <div class="col-3"><input type="date" /></div>
+        <div class="col-3"><button type="button">Upload</button></div>
     </div>
 }
