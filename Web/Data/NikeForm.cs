@@ -20,6 +20,7 @@ public class NikeForm
 
     public string Form { get; set; } = "Nike";
     public List<QSet> ListQSet { get; set; }
+    public Shrinkage Shrinkage { get; set; } = new Shrinkage();
     public int ScoreTotal { get; set; } = 0;
     public int ScoreMax { get; set; } = 0;
     public int ScorePercent { get; set; } = 0;
@@ -34,6 +35,12 @@ public class NikeForm
             q.Sum(); // sum question set
             ScoreTotal += q.ScoreTotal; // add setTotal to grandtotal
             ScoreMax += q.ScoreMax; // Add setMaxScore to grandMaxScore
+        }
+
+        if (ScoreMax == 0)
+        {
+            ScorePercent = 100;
+            return;
         }
 
         ScorePercent = (ScoreTotal * 100) / ScoreMax;
@@ -72,6 +79,12 @@ public class QSet
                 ScoreTotal += q.Score;
                 ScoreMax += q.MaxPossibleValue;
             } // Na questions are not counted. only compliance and non compliance
+        }
+
+        if (ScoreMax == 0)
+        {
+            ScorePercent = 100;
+            return;
         }
 
         ScorePercent = (ScoreTotal * 100) / ScoreMax;
@@ -166,4 +179,23 @@ public class QLink
     public string Form { get; set; }
     public string Set { get; set; }
     public string Question { get; set; }
+}
+
+public class Shrinkage
+{
+    public IntString ProcessFailure { get; set; } = new IntString(0, "Process Failure");
+    public IntString InternalTheft { get; set; } = new IntString(0, "Internal Theft");
+    public IntString ExternalTheft { get; set; } = new IntString(0, "External heft");
+    public IntString SupplierFraud { get; set; } = new IntString(0, "Supplier Fraud");
+}
+
+public class IntString
+{
+    public IntString(int value, string name) 
+    { 
+        Value = value;
+        Name = name;
+    }
+    public int Value { get; set; }
+    public string Name { get; set; }
 }
