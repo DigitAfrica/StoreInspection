@@ -1,12 +1,23 @@
-﻿@using ChartJs.Blazor.PieChart;
+﻿@using ChartJs.Blazor.Common.Enums;
+@using ChartJs.Blazor.PieChart;
+@using ChartJs.Blazor.BarChart;
+@using System.Drawing;
 @using ChartJs.Blazor.Common;
 @using ChartJs.Blazor.Util;
+
 @inject Bll bll;
 
 @code {
     [Parameter] public NikeForm report { get; set; }
     private PieConfig _pieConfig = new PieConfig();
-    private PieConfig _pieConfig2 = new PieConfig();
+
+    private const int InitalCount = 7;
+    private BarConfig _barConfig = new BarConfig();
+    private Random _rngOld = new Random();
+    private Chart _chart = new Chart();
+
+    private static readonly Random _rng = new Random();
+
     string pFName = "";
     int pFValue = 0;
 
@@ -23,7 +34,7 @@
     {
         InitShrinkage();
         _pieConfig = bll.PieInit(report.Shrinkage);
-        _pieConfig2 = bll.BarSetup(report.Shrinkage);
+        _barConfig = bll.BarSetup();
     }
 
     public void InitShrinkage()
@@ -76,7 +87,7 @@
             </div>
             <div class="col-6 outerSet">
                 <h4 class="headText">LPA Score</h4>
-                <Chart Config="_pieConfig2"></Chart>
+                <Chart Config="_barConfig" @ref="_chart"></Chart>
             </div>
         </div>
 

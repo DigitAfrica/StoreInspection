@@ -1,7 +1,10 @@
-﻿using ChartJs.Blazor.Common;
+﻿using ChartJs.Blazor.BarChart;
+using ChartJs.Blazor.Common;
+using ChartJs.Blazor.Common.Enums;
 using ChartJs.Blazor.PieChart;
 using ChartJs.Blazor.Util;
 using Newtonsoft.Json.Linq;
+using System.Drawing;
 
 namespace Web.Data;
 
@@ -124,16 +127,87 @@ public class Bll
         return _pieConfig;
     }
 
-    public PieConfig BarSetup(Shrinkage shrinkage)
+    public BarConfig BarSetup()
     {
         try
         {
-            var _pieConfig = PieLables(shrinkage);
-            return PieData(shrinkage, _pieConfig);
+            var _barConfig = BarLabels();
+            return BarData(_barConfig);
         }
         catch (Exception ex)
         {
-            return new PieConfig();
+            return new BarConfig();
         }
+    }
+
+    public BarConfig BarLabels()
+    {
+        var _barConfig = new BarConfig(horizontal: true);
+
+        var options = new BarOptions();
+        options.Responsive = true;
+        options.Legend = new Legend() { Position = Position.Bottom };
+        //options.Title = new OptionsTitle()
+        //{
+        //    Display = true,
+        //    Text = "ChartJs.Blazor Horizontal Bar Chart"
+        //};
+
+        _barConfig.Options = options;
+
+        return _barConfig;
+    }
+
+    public BarConfig BarData(BarConfig _barConfig)
+    {
+        int InitalCount = 7;
+
+        IDataset<int> dataset1 = new BarDataset<int>(RandomScalingFactor(InitalCount), horizontal: true)
+        {
+            Label = "Dataset 1",
+            BackgroundColor = ColorUtil.FromDrawingColor(Color.Red),
+            BorderColor = ColorUtil.FromDrawingColor(Color.Red),
+            BorderWidth = 1
+        };
+
+        IDataset<int> dataset2 = new BarDataset<int>(RandomScalingFactor(InitalCount), horizontal: true)
+        {
+            Label = "Dataset 2",
+            BackgroundColor = ColorUtil.FromDrawingColor(Color.Blue),
+            BorderColor = ColorUtil.FromDrawingColor(Color.Blue),
+            BorderWidth = 1
+        };
+
+        //_barConfig.Data.Labels.Add("dataset 1");
+        _barConfig.Data.Datasets.Add(dataset1);
+        _barConfig.Data.Datasets.Add(dataset2);
+
+        return _barConfig;
+    }
+
+    private static int RandomScalingFactorThreadUnsafe(Random _rng) => _rng.Next(0, 100);
+
+    public static int RandomScalingFactor()
+    {
+        Random _rng = new Random();
+        lock (_rng)
+        {
+            return RandomScalingFactorThreadUnsafe(_rng);
+        }
+    }
+
+    public static IEnumerable<int> RandomScalingFactor(int count)
+    {
+        Random _rng = new Random();
+        int[] factors = new int[count];
+        lock (_rng)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                factors[i] = RandomScalingFactorThreadUnsafe(_rng);
+            }
+        }
+
+        return factors;
     }
 }
