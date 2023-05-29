@@ -1,0 +1,94 @@
+﻿@using ChartJs.Blazor.PieChart;
+@using ChartJs.Blazor.Common;
+@using ChartJs.Blazor.Util;
+@inject Bll bll;
+
+@code {
+    [Parameter] public NikeForm report { get; set; }
+    private PieConfig _pieConfig = new PieConfig();
+    private PieConfig _pieConfig2 = new PieConfig();
+    string pFName = "";
+    int pFValue = 0;
+
+    string iTName = "";
+    int iTValue = 0;
+
+    string eTName = "";
+    int eTValue = 0;
+
+    string sFName = "";
+    int sFValue = 0;
+
+    protected override void OnInitialized()
+    {
+        InitShrinkage();
+        _pieConfig = bll.PieInit(report.Shrinkage);
+        _pieConfig2 = bll.BarSetup(report.Shrinkage);
+    }
+
+    public void InitShrinkage()
+    {
+        report.Shrinkage.ProcessFailure.Value = 40;
+        report.Shrinkage.InternalTheft.Value = 30;
+        report.Shrinkage.ExternalTheft.Value = 21;
+        report.Shrinkage.SupplierFraud.Value = 7;
+
+        var shrinkage = report.Shrinkage;
+
+        pFName = shrinkage.ProcessFailure.Name;
+        pFValue = shrinkage.ProcessFailure.Value;
+
+        iTName = shrinkage.InternalTheft.Name;
+        iTValue = shrinkage.InternalTheft.Value;
+
+        eTName = shrinkage.ExternalTheft.Name;
+        eTValue = shrinkage.ExternalTheft.Value;
+
+        sFName = shrinkage.SupplierFraud.Name;
+        sFValue = shrinkage.SupplierFraud.Value;
+    }
+}
+
+<div>
+    <div class="mb-5">
+        <div class="row">
+            <div class="col-6 outerSet">
+                <h4 class="headText">Shrinkage Barometer</h4>
+
+                <Chart Config="_pieConfig"></Chart>
+                <br/>
+                <div class="row">
+                    <div class="col-8" style="color:rgb(255, 205, 86)">@pFName</div>
+                    <div class="col-4">@(pFValue)%</div>
+                </div>
+                <div class="row">
+                    <div class="col-8" style="color:rgb(75, 192, 192)">@iTName</div>
+                    <div class="col-4">@(iTValue)%</div>
+                </div>
+                <div class="row">
+                    <div class="col-8" style="color:rgb(255, 99, 132)">@eTName</div>
+                    <div class="col-4">@(eTValue)%</div>
+                </div>
+                <div class="row">
+                    <div class="col-8" style="color:rgb(54, 162, 235)">@sFName</div>
+                    <div class="col-4">@(sFValue)%</div>
+                </div>
+            </div>
+            <div class="col-6 outerSet">
+                <h4 class="headText">LPA Score</h4>
+                <Chart Config="_pieConfig2"></Chart>
+            </div>
+        </div>
+
+    </div> 
+</div>
+
+<style>
+    .outerSet {
+        border: 1px solid black;
+    }
+
+    .headText{
+        text-align: center;
+    }
+</style>
