@@ -5,7 +5,7 @@
 
 @foreach (var qSet in qSets)
 {
-    <div class="mb-5">
+    <div class="mb-5 outerSet">
         <h4 class="text-center" style="background-color:aliceblue">LPA Store Analysis: @qSet.Title</h4>
         <table class="table table-striped table-sm" style="font-size:12px;">
             <thead>
@@ -22,6 +22,17 @@
 
             </tbody>
         </table>
-        <h5 class="text-center" style="background-color:aliceblue">@qSet.Title LPA Score = @(qSet.ScorePercent)%</h5>
+        <h5 class="text-center footerTitle">@qSet.Title LPA Score = @(qSet.ScorePercent)%</h5>
     </div>
 }
+
+<style>
+    .outerSet {
+        border: 1px solid black;
+    }
+
+    .footerTitle {
+        background-color: aliceblue;
+        margin-bottom: 0px;
+    }
+</style>

@@ -21,7 +21,7 @@ public class QInit
         //"Is the visitors register used and kept up-to-date at the staff entrance?",
         //"Are security meetings held with the management team on a regular basis?",
         //"Are Lodge Employees extra vigilant during high-risk times (CIT, opening & closing times)? Security posted outside the store at opening and closing times?",
-        "Are staff purchases checked and recorded by the Security?",
+        //"Are staff purchases checked and recorded by the Security?",
         "Are staff items / apparel declared before entering the store - checked by Security?"
     };
 
@@ -32,7 +32,7 @@ public class QInit
         //"Are the back door and the emergency doors alarmed when the store is open and trading?",
         //"Is the perimeter security effective (check security gates, perimeter doors and fire escape)?",
         //"Is the CCTV system working and recording correctly?",
-        "Are all CCTV Cameras and devices working correctly?",
+        //"Are all CCTV Cameras and devices working correctly?",
         "Is the cash office closed and only accessible by managers?"
     };
 
@@ -44,7 +44,7 @@ public class QInit
         //"Are blind spots monitored / patrolled by Security & Staff?",
         //"Are fitting room checks (pilfering) conducted on a regular basis during trading hours?",
         //"Are pilfered items (tags / empty boxes / hangers) collected daily and recorded?",
-        "Are tills correctly manned and is the Head Coach or Assistant Coach visible?",
+        //"Are tills correctly manned and is the Head Coach or Assistant Coach visible?",
         "Is the sales floor neat and tidy (no clutter or boxes left in the aisle)?"
     };
 
@@ -55,7 +55,7 @@ public class QInit
         //"Is the receiving area neat and tidy (stock not left out in the open)?",
         //"Are deliveries double checked against the invoice before being processed?",
         //"Is the storeroom neat and tidy (no clutter or loose stock left in the storeroom)?",
-        "Is there any evidence of pilfering in the storeroom?",
+        //"Is there any evidence of pilfering in the storeroom?",
         "Is the high-risk locker secured (unauthorised access restricted)?"
     };
     }
