@@ -162,7 +162,7 @@ public class Alert
     public string Person { get; set; } = "";
 
     [Required]
-    public string Due { get; set; } = DateTime.Now.ToString("dd-MM-yyyy");
+    public DateTime Due { get; set; } = DateTime.Now;
 
     public byte[]? bytes { get; set; }
 }

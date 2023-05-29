@@ -35,21 +35,21 @@
 @if (q.Score == -1)
 {
     <div class="row mb-4">
-        <div class="col-3">
+        <div class="col-4">
             <InputText id="Action" class="form-control" @bind-Value="q.Alert.Action" placeholder="Action" />
             <ValidationMessage For="@(() => q.Alert.Action)" />
         </div>
 
-        <div class="col-3">
+        <div class="col-4">
             <InputText id="Person" class="form-control" @bind-Value="q.Alert.Person" placeholder="Responsible" />
             <ValidationMessage For="@(() => q.Alert.Person)" />
         </div>
 
-        <div class="col-3">
-            <InputText id="Due" class="form-control" @bind-Value="q.Alert.Due" placeholder="Date" />
+        <div class="col-4">
+            <InputDate id="Due" class="form-control" @bind-Value="q.Alert.Due" placeholder="Date" />
             <ValidationMessage For="@(() => q.Alert.Due)" />
         </div>
 
-        <div class="col-3"><button type="button">Upload</button></div>
+        @*<div class="col-3"><button type="button">Upload</button></div>*@
     </div>
 }
