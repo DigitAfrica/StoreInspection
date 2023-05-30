@@ -13,7 +13,6 @@
 
     private const int InitalCount = 7;
     private BarConfig _barConfig = new BarConfig();
-    private Random _rngOld = new Random();
     private Chart _chart = new Chart();
 
     private static readonly Random _rng = new Random();
@@ -34,7 +33,7 @@
     {
         InitShrinkage();
         _pieConfig = bll.PieInit(report.Shrinkage);
-        _barConfig = bll.BarSetup();
+        _barConfig = bll.BarSetup(report);
     }
 
     public void InitShrinkage()
@@ -69,19 +68,31 @@
                 <Chart Config="_pieConfig"></Chart>
                 <br/>
                 <div class="row">
-                    <div class="col-8" style="color:rgb(255, 205, 86)">@pFName</div>
+                    <div class="col-8" 
+                        style="color:rgb(@Color.Red.R, @Color.Red.G, @Color.Red.B)">
+                        @pFName
+                    </div>
                     <div class="col-4">@(pFValue)%</div>
                 </div>
                 <div class="row">
-                    <div class="col-8" style="color:rgb(75, 192, 192)">@iTName</div>
+                    <div class="col-8" 
+                        style="color:rgb(@Color.Purple.R, @Color.Purple.G, @Color.Purple.B)">
+                        @iTName
+                    </div>
                     <div class="col-4">@(iTValue)%</div>
                 </div>
                 <div class="row">
-                    <div class="col-8" style="color:rgb(255, 99, 132)">@eTName</div>
+                    <div class="col-8" 
+                        style="color:rgb(@Color.Blue.R, @Color.Blue.G, @Color.Blue.B)">
+                        @eTName
+                    </div>
                     <div class="col-4">@(eTValue)%</div>
                 </div>
                 <div class="row">
-                    <div class="col-8" style="color:rgb(54, 162, 235)">@sFName</div>
+                    <div class="col-8" 
+                        style="color:rgb(@Color.Orange.R, @Color.Orange.G, @Color.Orange.B)">
+                        @sFName
+                    </div>
                     <div class="col-4">@(sFValue)%</div>
                 </div>
             </div>

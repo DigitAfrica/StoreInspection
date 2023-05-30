@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using System.Drawing;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -11,10 +12,10 @@ public class NikeForm
         var qInit = new QInit.Nike();
         ListQSet = new List<QSet>
         {
-            new QSet("Lodge Security", qInit.LodgeSecurity),
-            new QSet("Physical Security", qInit.PhysicalSecurity),
-            new QSet("Sales Floor", qInit.SalesFloor),
-            new QSet("Storeroom", qInit.Storeroom)
+            new QSet("Lodge Security", qInit.LodgeSecurity, Color.Red),
+            new QSet("Physical Security", qInit.PhysicalSecurity, Color.Purple),
+            new QSet("Sales Floor", qInit.SalesFloor, Color.Blue),
+            new QSet("Storeroom", qInit.Storeroom, Color.Orange)
         };
     }
 
@@ -51,10 +52,11 @@ public class NikeForm
 
 public class QSet
 {
-    public QSet(string title, List<string> listQuestions)
+    public QSet(string title, List<string> listQuestions, Color color)
     {
         Title = title;
         Questions = new List<Question>();
+        Color = color;
 
         for (int i = 0; i < listQuestions.Count(); i++)
         {
@@ -64,6 +66,7 @@ public class QSet
 
     public string Title { get; set; }
     public List<Question> Questions { get; set; }
+    public Color Color { get; set; }
     public int ScoreTotal { get; set; } = 0;
     public int ScoreMax { get; set; } = 0;
     public int ScorePercent { get; set; } = 0;

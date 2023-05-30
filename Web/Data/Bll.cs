@@ -116,23 +116,23 @@ public class Bll
 
         dataset.BackgroundColor = new[]
         {
-                ColorUtil.ColorHexString(255, 205, 86), // Slice 2 aka "Yellow"
-                ColorUtil.ColorHexString(75, 192, 192), // Slice 3 aka "Green"
-                ColorUtil.ColorHexString(255, 99, 132), // Slice 1 aka "Red"
-                ColorUtil.ColorHexString(54, 162, 235), // Slice 4 aka "Blue"
-            };
+            ColorUtil.ColorHexString(Color.Red.R, Color.Red.G, Color.Red.B),
+            ColorUtil.ColorHexString(Color.Purple.R, Color.Purple.G, Color.Purple.B),
+            ColorUtil.ColorHexString(Color.Blue.R, Color.Blue.G, Color.Blue.B),
+            ColorUtil.ColorHexString(Color.Orange.R, Color.Orange.G, Color.Orange.B)
+        };
 
         _pieConfig.Data.Datasets.Add(dataset);
 
         return _pieConfig;
     }
 
-    public BarConfig BarSetup()
+    public BarConfig BarSetup(NikeForm report)
     {
         try
         {
             var _barConfig = BarLabels();
-            return BarData(_barConfig);
+            return BarData(_barConfig, report.ListQSet);
         }
         catch (Exception ex)
         {
@@ -155,6 +155,29 @@ public class Bll
 
         _barConfig.Options = options;
 
+        return _barConfig;
+    }
+
+    public BarConfig BarData(BarConfig _barConfig, List<QSet> qSets)
+    {
+        foreach (var qSet in qSets)
+        {
+            var scorePercent = qSet.ScorePercent < 0 ? 0 : qSet.ScorePercent;
+            var scorePercents = new List<int>() { scorePercent };
+
+            IDataset<int> dataset = new BarDataset<int>(scorePercents, horizontal: true)
+            {
+                Label = qSet.Title,
+                BackgroundColor = ColorUtil.FromDrawingColor(qSet.Color),
+                BorderColor = ColorUtil.FromDrawingColor(qSet.Color),
+                BorderWidth = 1
+            };
+
+            _barConfig.Data.Datasets.Add(dataset);
+
+        }
+        
+        //_barConfig.Data.Labels.Add("dataset 1");
         return _barConfig;
     }
 
