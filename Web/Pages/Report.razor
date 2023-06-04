@@ -1,5 +1,7 @@
 ﻿@page "/report"
 
+@inject IJSRuntime JS
+
 @using Web.Components.NikeReport
 @inject NavigationManager NavManager
 @inject Session session
@@ -17,10 +19,19 @@
 
         report = session._nikeForm;
         report.Sum();
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("CreatingPDFfromHTML");
+        }
     }
 }
 
-<div>
+<div class="html-content">
     <Banner />
 
     <Heading report="@report"/> @*Heading*@
