@@ -25,8 +25,12 @@ function CreatePDFfromHTML() {
             pdf.addPage(PDF_Width, PDF_Height);
             pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height * i) + (top_left_margin * 4), canvas_image_width, canvas_image_height);
         }
-        pdf.save("Nike Report.pdf");
-        $(".html-content").hide();
+
+        pdf.save("Nike Report.pdf"); // replace with base64 of pdf (so it can be emailed)
+        //$(".html-content").hide();
+
+        //var fileEncode = btoa(doc.output());
+
     });
 }
 
