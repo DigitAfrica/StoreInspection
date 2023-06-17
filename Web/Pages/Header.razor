@@ -1,0 +1,81 @@
+﻿@page "/header"
+@inject NavigationManager NavManager
+@inject Session session
+
+@code {
+    private FHeader formHeader { get; set; } = new();
+    public string msg = "";
+
+    protected void SubmitFailed()
+    {
+
+    }
+
+    protected void Submit()
+    {
+        try
+        {
+            NavManager.NavigateTo($"form");
+        }
+        catch
+        {
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        formHeader = session._nikeForm.FHeader;
+    }
+}
+
+<div id="loginDiv" class="container">
+    <div class="row">
+        <div class="col-md-5 mx-auto">
+            <h3 class="mb-3 ms-3">Form Details</h3>
+
+            <EditForm Model="formHeader" OnInvalidSubmit="SubmitFailed" OnValidSubmit="Submit">
+                <DataAnnotationsValidator />
+
+                <InputText id="Store" class="form-control" @bind-Value="formHeader.Store" placeholder="Store" />
+                <ValidationMessage For="@(() => formHeader.Store)" />
+                <br />
+                <InputText id="Audit Type" class="form-control" @bind-Value="formHeader.AuditType" placeholder="Audit Type" />
+                <ValidationMessage For="@(() => formHeader.AuditType)" />
+                <br />
+                <InputDate id="Date" class="form-control" @bind-Value="formHeader.Date" placeholder="Date" />
+                <ValidationMessage For="@(() => formHeader.Date)" />
+                <br />
+                <InputText id="Previous Score" class="form-control" @bind-Value="formHeader.PreviousScore" placeholder="Previous Score" />
+                <ValidationMessage For="@(() => formHeader.PreviousScore)" />
+                <br />
+                <InputText id="Current Shrinkage" class="form-control" @bind-Value="formHeader.CurrentShrinkage" placeholder="Current Shrinkage" />
+                <ValidationMessage For="@(() => formHeader.CurrentShrinkage)" />
+                <br />
+                <InputText id="Address" class="form-control" @bind-Value="formHeader.Address" placeholder="Address" />
+                <ValidationMessage For="@(() => formHeader.Address)" />
+                <br />
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-anchor-circle-check" aria-hidden="true"></i> Submit
+                </button>
+            </EditForm>
+            
+            <br />
+
+            @if (!string.IsNullOrEmpty(msg))
+            {
+                <p style="color:red">@msg</p>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    #loginDiv {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+</style>

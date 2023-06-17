@@ -8,34 +8,34 @@
         <tbody>
             <tr class="tableRow">
                 <th scope="row">Client</th>
-                <td>Nike</td>
+                <td>@report.FHeader.Client</td>
                 <td rowspan="7" style="text-align: center; font-size:180%; font-weight:bold">
                     Scorecard: <br />@(report.ScorePercent)%
                 </td>
             </tr>
             <tr class="tableRow">
                 <th scope="row">Store</th>
-                <td>?</td>
+                <td>@report.FHeader.Store</td>
             </tr>
             <tr class="tableRow">
                 <th scope="row">Audit type</th>
-                <td>Nike</td>
+                <td>@report.FHeader.AuditType</td>
             </tr>
             <tr class="tableRow">
                 <th scope="row">Date</th>
-                <td>@DateTime.Now.ToString()</td>
+                <td>@report.FHeader.Date.ToString()</td>
             </tr>
             <tr class="tableRow">
                 <th scope="row">Previous score</th>
-                <td>?</td>
+                <td>@report.FHeader.PreviousScore</td>
             </tr>
             <tr class="tableRow">
                 <th scope="row">Current shrinkage</th>
-                <td>?</td>
+                <td>@report.FHeader.CurrentShrinkage</td>
             </tr>
             <tr class="tableRow">
                 <th scope="row">Address</th>
-                <td>?</td>
+                <td>@report.FHeader.Address</td>
             </tr>
         </tbody>
     </table>

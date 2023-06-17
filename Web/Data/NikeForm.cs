@@ -9,7 +9,7 @@ public class NikeForm
 {
     public NikeForm()
     {
-        var qInit = new QInit.Nike();
+        var qInit = new QInit2.Nike();
         ListQSet = new List<QSet>
         {
             new QSet("Lodge Security", qInit.LodgeSecurity, Color.Red),
@@ -19,7 +19,7 @@ public class NikeForm
         };
     }
 
-    public string Form { get; set; } = "Nike";
+    public FHeader FHeader { get; set; } = new FHeader();
     public List<QSet> ListQSet { get; set; }
     public Shrinkage Shrinkage { get; set; } = new Shrinkage();
     public int ScoreTotal { get; set; } = 0;
@@ -48,6 +48,31 @@ public class NikeForm
         var scoreRemainder = (ScoreTotal * 100) % ScoreMax;
         if (scoreRemainder != 0 && ScorePercent > 0) ScorePercent++;
     }
+}
+
+public class FHeader
+{
+    [Required]
+    public string Client { get; set; } = "Nike";
+
+    [Required]
+    public string Store { get; set; }
+    
+    [Required]
+    public string AuditType { get; set; }
+
+    [Required]
+    public DateTime Date { get; set; } = DateTime.Now;
+
+    [Required]
+    public string PreviousScore { get; set; }
+    
+    [Required]
+    public string CurrentShrinkage { get; set; }
+    
+    [Required]
+    public string Address { get; set; }
+
 }
 
 public class QSet
