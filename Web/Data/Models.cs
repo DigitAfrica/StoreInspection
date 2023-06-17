@@ -31,6 +31,19 @@ public class User
         } //todo - remove when publishing
     }
 
+    public class Register
+    {
+        [Required]
+        [EmailAddress(ErrorMessage = "Please enter a valid email address")]
+        public string? Email { get; set; }
+
+        [Required]
+        public string? Name { get; set; }
+        
+        [Required]
+        public string? Surname { get; set; }
+    }
+
     public class Notyf
     {
         public bool Win { get; set; } = false;

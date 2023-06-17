@@ -1,0 +1,77 @@
+﻿@page "/register"
+@layout LoginLayout
+@inject NavigationManager NavManager
+@inject Session session
+
+@code {
+    private User.Register registerDetails { get; set; } = new();
+    public string msg = "";
+
+    protected void SubmitFailed()
+    {
+
+    }
+
+    protected void Submit()
+    {
+        try
+        {
+            session.Register(registerDetails);
+
+            NavManager.NavigateTo($"");
+        }
+        catch
+        {
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        session.logOut();
+        session._notyf = new User.Notyf();
+    }
+}
+
+<div id="loginDiv" class="container">
+    <div class="row">
+        <div class="col-md-5 mx-auto">
+            <h3 class="mb-3 ms-3">SIGN IN</h3>
+
+            <EditForm Model="registerDetails" OnInvalidSubmit="SubmitFailed" OnValidSubmit="Submit">
+                <DataAnnotationsValidator />
+
+                <InputText id="Email" class="form-control" @bind-Value="registerDetails.Email" placeholder="Email address" />
+                <ValidationMessage For="@(() => registerDetails.Email)" />
+                <br />
+
+                <InputText id="Name" class="form-control" @bind-Value="registerDetails.Name" placeholder="Name" />
+                <ValidationMessage For="@(() => registerDetails.Name)" />
+                <br />
+
+                <InputText id="Surname" class="form-control" @bind-Value="registerDetails.Surname" placeholder="Surname" />
+                <ValidationMessage For="@(() => registerDetails.Surname)" />
+                <br />
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-anchor-circle-check" aria-hidden="true"></i> Register
+                </button>
+            </EditForm>
+            <br />
+
+            @if (!string.IsNullOrEmpty(msg))
+            {
+                <p style="color:red">@msg</p>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    #loginDiv {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+</style>

@@ -72,7 +72,6 @@ public class FHeader
     
     [Required]
     public string Address { get; set; }
-
 }
 
 public class QSet

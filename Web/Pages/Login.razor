@@ -40,6 +40,11 @@
         session.logOut();
         session._notyf = new User.Notyf();
     }
+
+    private void NavToRegister()
+    {
+        NavManager.NavigateTo($"register");
+    }
 }
 
 <div id="loginDiv" class="container">
@@ -60,6 +65,10 @@
 
                 <button type="submit" class="btn btn-primary">
                     <i class="fa-solid fa-anchor-circle-check" aria-hidden="true"></i> Sign In
+                </button>
+
+                <button type="button" class="btn btn-primary" @onclick="NavToRegister">
+                    <i class="fa-solid fa-anchor-circle-check" aria-hidden="true"></i> Register
                 </button>
             </EditForm>
             

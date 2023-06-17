@@ -18,6 +18,32 @@ public class Session
 
     public readonly Bll? _bll;
 
+    public void Register(User.Register regiserDeatils)
+    {
+        try
+        {
+            if (regiserDeatils == null || _bll == null) return;
+            
+            var email = new MailObject();
+            var subject = $"{_configuration["Portal:Name"]} - New User Registration";
+            var body = "Hi, below are the details of the user requesting access<br/><br/>"
+                + $"Full Name: {regiserDeatils.Name} {regiserDeatils.Surname}<br/>"
+                + $"Email {regiserDeatils.Email}<br/><br/>"
+                + "Have a great day!<br/>";
+
+            email.Subject = subject;
+            email.Body = body;
+
+            var mail = new Mail(_configuration);
+            mail.sendMail(email);
+        }
+        catch (Exception ex)
+        {
+            _notyf = new User.Notyf() { Fail = true, Msg = ex.Message };
+
+        }
+    }
+
     public void Login(User.Login loginDetails)
     {
         try
