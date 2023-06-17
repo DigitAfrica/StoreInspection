@@ -47,3 +47,12 @@ public class Reply
     public string? Info { get; set; }
     public object? Data { get; set; }
 }
+
+public class MailObject
+{
+    public string? From { get; set; }
+    public string? To { get; set; }
+    public string? Cc { get; set; }
+    public string? Subject { get; set; }
+    public string? Body { get; set; }
+}
