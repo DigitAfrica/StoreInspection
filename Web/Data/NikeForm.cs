@@ -9,13 +9,18 @@ public class NikeForm
 {
     public NikeForm()
     {
+        Color bc1 = System.Drawing.ColorTranslator.FromHtml("#DAE3F3");
+        Color bc2 = System.Drawing.ColorTranslator.FromHtml("#4472C4");
+        Color bc3 = System.Drawing.ColorTranslator.FromHtml("#8FAADC");
+        Color bc4 = System.Drawing.ColorTranslator.FromHtml("#4472C4");
+
         var qInit = new QInit2.Nike();
         ListQSet = new List<QSet>
         {
-            new QSet("Lodge Security", qInit.LodgeSecurity, Color.Red),
-            new QSet("Physical Security", qInit.PhysicalSecurity, Color.Purple),
-            new QSet("Sales Floor", qInit.SalesFloor, Color.Blue),
-            new QSet("Storeroom", qInit.Storeroom, Color.Orange)
+            new QSet("Lodge Security", qInit.LodgeSecurity, bc1),
+            new QSet("Physical Security", qInit.PhysicalSecurity, bc2),
+            new QSet("Sales Floor", qInit.SalesFloor, bc3),
+            new QSet("Storeroom", qInit.Storeroom, bc4)
         };
     }
 
@@ -76,11 +81,11 @@ public class FHeader
 
 public class QSet
 {
-    public QSet(string title, List<string> listQuestions, Color color)
+    public QSet(string title, List<string> listQuestions, Color barColor)
     {
         Title = title;
         Questions = new List<Question>();
-        Color = color;
+        BarColor = barColor;
 
         for (int i = 0; i < listQuestions.Count(); i++)
         {
@@ -90,7 +95,7 @@ public class QSet
 
     public string Title { get; set; }
     public List<Question> Questions { get; set; }
-    public Color Color { get; set; }
+    public Color BarColor { get; set; }
     public int ScoreTotal { get; set; } = 0;
     public int ScoreMax { get; set; } = 0;
     public int ScorePercent { get; set; } = 0;
@@ -210,19 +215,34 @@ public class QLink
 
 public class Shrinkage
 {
-    public IntString ProcessFailure { get; set; } = new IntString(0, "Process Failure");
-    public IntString InternalTheft { get; set; } = new IntString(0, "Internal Theft");
-    public IntString ExternalTheft { get; set; } = new IntString(0, "External heft");
-    public IntString SupplierFraud { get; set; } = new IntString(0, "Supplier Fraud");
+    public Shrinkage()
+    {
+        Color pc1 = System.Drawing.ColorTranslator.FromHtml("#335899");
+        Color pc2 = System.Drawing.ColorTranslator.FromHtml("#3F6AB7");
+        Color pc3 = System.Drawing.ColorTranslator.FromHtml("#7991CE");
+        Color pc4 = System.Drawing.ColorTranslator.FromHtml("#B3BEDF");
+
+        ProcessFailure = new Shrink(0, "Process Failure", pc1);
+        InternalTheft = new Shrink(0, "Internal Theft", pc2);
+        ExternalTheft = new Shrink(0, "External Theft", pc3);
+        SupplierFraud = new Shrink(0, "Supplier Fraud", pc4);
+    }
+
+    public Shrink ProcessFailure { get; set; }
+    public Shrink InternalTheft { get; set; }
+    public Shrink ExternalTheft { get; set; }
+    public Shrink SupplierFraud { get; set; }
 }
 
-public class IntString
+public class Shrink
 {
-    public IntString(int value, string name) 
+    public Shrink(int value, string name, System.Drawing.Color color) 
     { 
         Value = value;
         Name = name;
+        Color = color;
     }
     public int Value { get; set; }
     public string Name { get; set; }
+    public Color Color { get; set; }
 }

@@ -65,7 +65,6 @@ public class Bll
         try
         {
             var _pieConfig = new PieConfig();
-            return _pieConfig;
 
             //var title = new OptionsTitle()
             //{
@@ -79,22 +78,24 @@ public class Bll
             //    Title = title
             //};
 
-            //var pFName = shrinkage.ProcessFailure.Name;
-            //var pFValue = shrinkage.ProcessFailure.Value;
+            var pFName = shrinkage.ProcessFailure.Name;
+            var pFValue = shrinkage.ProcessFailure.Value;
 
-            //var iTName = shrinkage.InternalTheft.Name;
-            //var iTValue = shrinkage.InternalTheft.Value;
+            var iTName = shrinkage.InternalTheft.Name;
+            var iTValue = shrinkage.InternalTheft.Value;
 
-            //var eTName = shrinkage.ExternalTheft.Name;
-            //var eTValue = shrinkage.ExternalTheft.Value;
+            var eTName = shrinkage.ExternalTheft.Name;
+            var eTValue = shrinkage.ExternalTheft.Value;
 
-            //var sFName = shrinkage.SupplierFraud.Name;
-            //var sFValue = shrinkage.SupplierFraud.Value;
+            var sFName = shrinkage.SupplierFraud.Name;
+            var sFValue = shrinkage.SupplierFraud.Value;
 
-            //_pieConfig.Data.Labels.Add($"{pFName} {pFValue}%");
-            //_pieConfig.Data.Labels.Add($"{iTName} {iTValue}%");
-            //_pieConfig.Data.Labels.Add($"{eTName} {eTValue}%");
-            //_pieConfig.Data.Labels.Add($"{sFName} {sFValue}%");
+            _pieConfig.Data.Labels.Add(shrinkage.ProcessFailure.Name);
+            _pieConfig.Data.Labels.Add(shrinkage.InternalTheft.Name);
+            _pieConfig.Data.Labels.Add(shrinkage.ExternalTheft.Name);
+            _pieConfig.Data.Labels.Add(shrinkage.SupplierFraud.Name);
+         
+            return _pieConfig;
         }
         catch (Exception ex)
         {
@@ -104,22 +105,25 @@ public class Bll
 
     public PieConfig PieData(Shrinkage shrinkage, PieConfig _pieConfig)
     {
-        var pFValue = shrinkage.ProcessFailure.Value;
-        var iTValue = shrinkage.InternalTheft.Value;
-        var eTValue = shrinkage.ExternalTheft.Value;
-        var sFValue = shrinkage.SupplierFraud.Value;
+        var pFC = shrinkage.ProcessFailure.Color;
+        var iTC = shrinkage.InternalTheft.Color;
+        var eTC = shrinkage.ExternalTheft.Color;
+        var sFC = shrinkage.SupplierFraud.Color;
 
         PieDataset<int> dataset = new PieDataset<int>(new[]
         {
-            pFValue, iTValue, eTValue, sFValue
+            shrinkage.ProcessFailure.Value,
+            shrinkage.InternalTheft.Value,
+            shrinkage.ExternalTheft.Value,
+            shrinkage.SupplierFraud.Value
         });
 
         dataset.BackgroundColor = new[]
         {
-            ColorUtil.ColorHexString(Color.Red.R, Color.Red.G, Color.Red.B),
-            ColorUtil.ColorHexString(Color.Purple.R, Color.Purple.G, Color.Purple.B),
-            ColorUtil.ColorHexString(Color.Blue.R, Color.Blue.G, Color.Blue.B),
-            ColorUtil.ColorHexString(Color.Orange.R, Color.Orange.G, Color.Orange.B)
+            "#" + pFC.R.ToString("X2") + pFC.G.ToString("X2") + pFC.B.ToString("X2"),
+            "#" + iTC.R.ToString("X2") + iTC.G.ToString("X2") + iTC.B.ToString("X2"),
+            "#" + eTC.R.ToString("X2") + eTC.G.ToString("X2") + eTC.B.ToString("X2"),
+            "#" + sFC.R.ToString("X2") + sFC.G.ToString("X2") + sFC.B.ToString("X2")
         };
 
         _pieConfig.Data.Datasets.Add(dataset);
@@ -147,12 +151,7 @@ public class Bll
         var options = new BarOptions();
         options.Responsive = true;
         options.Legend = new Legend() { Position = Position.Bottom };
-        //options.Title = new OptionsTitle()
-        //{
-        //    Display = true,
-        //    Text = "ChartJs.Blazor Horizontal Bar Chart"
-        //};
-
+        
         _barConfig.Options = options;
 
         return _barConfig;
@@ -168,8 +167,8 @@ public class Bll
             IDataset<int> dataset = new BarDataset<int>(scorePercents, horizontal: true)
             {
                 Label = qSet.Title,
-                BackgroundColor = ColorUtil.FromDrawingColor(qSet.Color),
-                BorderColor = ColorUtil.FromDrawingColor(qSet.Color),
+                BackgroundColor = ColorUtil.FromDrawingColor(qSet.BarColor),
+                BorderColor = ColorUtil.FromDrawingColor(qSet.BarColor),
                 BorderWidth = 1
             };
 
@@ -177,60 +176,6 @@ public class Bll
 
         }
         
-        //_barConfig.Data.Labels.Add("dataset 1");
         return _barConfig;
-    }
-
-    public BarConfig BarData(BarConfig _barConfig)
-    {
-        int InitalCount = 7;
-
-        IDataset<int> dataset1 = new BarDataset<int>(RandomScalingFactor(InitalCount), horizontal: true)
-        {
-            Label = "Dataset 1",
-            BackgroundColor = ColorUtil.FromDrawingColor(Color.Red),
-            BorderColor = ColorUtil.FromDrawingColor(Color.Red),
-            BorderWidth = 1
-        };
-
-        IDataset<int> dataset2 = new BarDataset<int>(RandomScalingFactor(InitalCount), horizontal: true)
-        {
-            Label = "Dataset 2",
-            BackgroundColor = ColorUtil.FromDrawingColor(Color.Blue),
-            BorderColor = ColorUtil.FromDrawingColor(Color.Blue),
-            BorderWidth = 1
-        };
-
-        //_barConfig.Data.Labels.Add("dataset 1");
-        _barConfig.Data.Datasets.Add(dataset1);
-        _barConfig.Data.Datasets.Add(dataset2);
-
-        return _barConfig;
-    }
-
-    private static int RandomScalingFactorThreadUnsafe(Random _rng) => _rng.Next(0, 100);
-
-    public static int RandomScalingFactor()
-    {
-        Random _rng = new Random();
-        lock (_rng)
-        {
-            return RandomScalingFactorThreadUnsafe(_rng);
-        }
-    }
-
-    public static IEnumerable<int> RandomScalingFactor(int count)
-    {
-        Random _rng = new Random();
-        int[] factors = new int[count];
-        lock (_rng)
-        {
-            for (int i = 0; i < count; i++)
-            {
-                factors[i] = RandomScalingFactorThreadUnsafe(_rng);
-            }
-        }
-
-        return factors;
     }
 }
