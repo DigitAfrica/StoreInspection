@@ -47,7 +47,7 @@ public class Bll
         }
     }
 
-    public PieConfig PieInit(Shrinkage shrinkage)
+    public PieConfig PieInit(ShrinkageRename shrinkage)
     {
         try
         {
@@ -60,7 +60,7 @@ public class Bll
         }
     }
 
-    public PieConfig PieLables(Shrinkage shrinkage)
+    public PieConfig PieLables(ShrinkageRename shrinkage)
     {
         try
         {
@@ -103,7 +103,7 @@ public class Bll
         }
     }
 
-    public PieConfig PieData(Shrinkage shrinkage, PieConfig _pieConfig)
+    public PieConfig PieData(ShrinkageRename shrinkage, PieConfig _pieConfig)
     {
         var pFC = shrinkage.ProcessFailure.Color;
         var iTC = shrinkage.InternalTheft.Color;

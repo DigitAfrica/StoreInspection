@@ -20,6 +20,20 @@ public class QInit
     public int SupplierFraud { get; set; }
 }
 
+public class Shrinkages
+{
+    public Shrinkage ExternalTheft { get; set; }
+    public Shrinkage InternalTheft { get; set; }
+    public Shrinkage ProcessFailure { get; set; }
+    public Shrinkage SupplierFraud { get; set; }
+}
+
+public class Shrinkage
+{
+    public int ShrinkTotal { get; set; } = 0;
+    public int ShrinkMax { get; set; } = 0;
+}
+
 public class User
 {
     public class Info

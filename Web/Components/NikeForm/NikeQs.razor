@@ -19,7 +19,7 @@
         @foreach (var q in QSet.Questions) 
         {
             <div class="mb-5">
-                <h6>@q.Text</h6>
+                <h6>@q.QInit.Question</h6>
                 <NikeQ invalidSubmit=@invalidSubmit q=q />
             </div>
         }

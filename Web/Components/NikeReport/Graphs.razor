@@ -12,11 +12,11 @@
     private PieConfig _pieConfig = new PieConfig();
     private BarConfig _barConfig = new BarConfig();
     private Chart _chart = new Chart();
-    Shrinkage shrinkage = new();
+    ShrinkageRename shrinkage = new();
 
     protected override void OnInitialized()
     {
-        InitShrinkage();
+        //InitShrinkage();
         _pieConfig = bll.PieInit(report.Shrinkage);
         _barConfig = bll.BarSetup(report);
     }

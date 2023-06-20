@@ -14,7 +14,7 @@ public class NikeForm
         Color bc3 = System.Drawing.ColorTranslator.FromHtml("#8FAADC");
         Color bc4 = System.Drawing.ColorTranslator.FromHtml("#4472C4");
 
-        var qInit = new QInit2.Nike();
+        var qInit = new QSetInitNew.NikeTest();
         ListQSet = new List<QSet>
         {
             new QSet("Lodge Security", qInit.LodgeSecurity, bc1),
@@ -22,23 +22,83 @@ public class NikeForm
             new QSet("Sales Floor", qInit.SalesFloor, bc3),
             new QSet("Storeroom", qInit.Storeroom, bc4)
         };
+
+        TotShrink = new();
     }
 
     public FHeader FHeader { get; set; } = new FHeader();
     public List<QSet> ListQSet { get; set; }
-    public Shrinkage Shrinkage { get; set; } = new Shrinkage();
+    public ShrinkageRename Shrinkage { get; set; } = new ShrinkageRename();
     public int ScoreTotal { get; set; } = 0;
     public int ScoreMax { get; set; } = 0;
     public int ScorePercent { get; set; } = 0;
+    public Shrinkages TotShrink { get; set; }
 
     public void Sum()
+    {
+        foreach (var q in ListQSet)
+        {
+            q.Sum(); // sum question set
+        }
+
+        SumScore();
+        SumShrinkage();
+    }
+
+    private void SumShrinkage()
+    {
+        TotShrink.ExternalTheft.ShrinkTotal = 0;
+        TotShrink.ExternalTheft.ShrinkMax = 0;
+        TotShrink.InternalTheft.ShrinkTotal = 0;
+        TotShrink.InternalTheft.ShrinkMax = 0;
+        TotShrink.ProcessFailure.ShrinkTotal = 0;
+        TotShrink.ProcessFailure.ShrinkMax = 0;
+        TotShrink.SupplierFraud.ShrinkTotal = 0;
+        TotShrink.SupplierFraud.ShrinkMax = 0;
+
+        foreach (var q in ListQSet)
+        {
+            TotShrink.ExternalTheft.ShrinkMax += q.TotShrink.ExternalTheft.ShrinkMax;
+            TotShrink.InternalTheft.ShrinkMax += q.TotShrink.InternalTheft.ShrinkMax;
+            TotShrink.ProcessFailure.ShrinkMax += q.TotShrink.ProcessFailure.ShrinkMax;
+            TotShrink.SupplierFraud.ShrinkMax += q.TotShrink.SupplierFraud.ShrinkMax;
+
+            TotShrink.ExternalTheft.ShrinkTotal += q.TotShrink.ExternalTheft.ShrinkTotal;
+            TotShrink.InternalTheft.ShrinkTotal += q.TotShrink.InternalTheft.ShrinkTotal;
+            TotShrink.ProcessFailure.ShrinkTotal += q.TotShrink.ProcessFailure.ShrinkTotal;
+            TotShrink.SupplierFraud.ShrinkTotal += q.TotShrink.SupplierFraud.ShrinkTotal;
+        }
+
+        Shrinkage.ExternalTheft.Value = Shrinkpercent(TotShrink.ExternalTheft);
+        Shrinkage.InternalTheft.Value = Shrinkpercent(TotShrink.InternalTheft);
+        Shrinkage.ProcessFailure.Value = Shrinkpercent(TotShrink.ProcessFailure);
+        Shrinkage.SupplierFraud.Value = Shrinkpercent(TotShrink.SupplierFraud);
+
+        //TotShrink.ExternalTheft.ShrinkPercent = Shrinkpercent(TotShrink.ExternalTheft);
+        //TotShrink.InternalTheft.ShrinkPercent = Shrinkpercent(TotShrink.InternalTheft);
+        //TotShrink.ProcessFailure.ShrinkPercent = Shrinkpercent(TotShrink.ProcessFailure);
+        //TotShrink.SupplierFraud.ShrinkPercent = Shrinkpercent(TotShrink.SupplierFraud);
+    }
+
+    private int Shrinkpercent(Shrinkage shrinkage)
+    {
+        if (shrinkage == null) return 0;
+        if (shrinkage.ShrinkMax ==  0) return 100;
+
+        var shrinkPercent = (shrinkage.ShrinkTotal * 100) / shrinkage.ShrinkMax;
+        var shrinkRemainder = (shrinkage.ShrinkTotal * 100) % shrinkage.ShrinkMax;
+        if (shrinkRemainder != 0 && shrinkPercent > 0) shrinkPercent++;
+
+        return shrinkPercent;
+    }
+
+    private void SumScore()
     {
         ScoreTotal = 0;
         ScoreMax = 0;
 
         foreach (var q in ListQSet)
         {
-            q.Sum(); // sum question set
             ScoreTotal += q.ScoreTotal; // add setTotal to grandtotal
             ScoreMax += q.ScoreMax; // Add setMaxScore to grandMaxScore
         }
@@ -81,15 +141,16 @@ public class FHeader
 
 public class QSet
 {
-    public QSet(string title, List<string> listQuestions, Color barColor)
+    public QSet(string title, List<QInit> listQInit, Color barColor)
     {
         Title = title;
         Questions = new List<Question>();
+        TotShrink = new();
         BarColor = barColor;
 
-        for (int i = 0; i < listQuestions.Count(); i++)
+        foreach (var qInit in listQInit)
         {
-            Questions.Add(new Question(i + 1, listQuestions[i]));
+            Questions.Add(new Question(qInit));
         }
     }
 
@@ -99,8 +160,46 @@ public class QSet
     public int ScoreTotal { get; set; } = 0;
     public int ScoreMax { get; set; } = 0;
     public int ScorePercent { get; set; } = 0;
+    public Shrinkages TotShrink { get; set; }
 
     public void Sum()
+    {
+        SumScore();
+        SumShrinkage();
+    }
+
+    private void SumShrinkage()
+    {
+        TotShrink.ExternalTheft.ShrinkTotal = 0;
+        TotShrink.ExternalTheft.ShrinkMax = 0;
+        TotShrink.InternalTheft.ShrinkTotal = 0;
+        TotShrink.InternalTheft.ShrinkMax = 0;
+        TotShrink.ProcessFailure.ShrinkTotal = 0;
+        TotShrink.ProcessFailure.ShrinkMax = 0;
+        TotShrink.SupplierFraud.ShrinkTotal = 0;
+        TotShrink.SupplierFraud.ShrinkMax = 0;
+
+        foreach (var q in Questions)
+        {
+            if (q.Score != 0)
+            {
+                TotShrink.ExternalTheft.ShrinkMax += q.QInit.ExternalTheft;
+                TotShrink.InternalTheft.ShrinkMax += q.QInit.InternalTheft;
+                TotShrink.ProcessFailure.ShrinkMax += q.QInit.ProcessFailure;
+                TotShrink.SupplierFraud.ShrinkMax += q.QInit.SupplierFraud;
+            } // Na questions are not counted. only compliance and non compliance
+
+            if (q.Score < 0)
+            {
+                TotShrink.ExternalTheft.ShrinkTotal += q.QInit.ExternalTheft;
+                TotShrink.InternalTheft.ShrinkTotal += q.QInit.InternalTheft;
+                TotShrink.ProcessFailure.ShrinkTotal += q.QInit.ProcessFailure;
+                TotShrink.SupplierFraud.ShrinkTotal += q.QInit.SupplierFraud;
+            } // Na questions are not counted. only compliance and non compliance
+        }
+    }
+
+    private void SumScore()
     {
         ScoreTotal = 0;
         ScoreMax = 0;
@@ -136,8 +235,7 @@ public class QSet
 
 public class Question
 {
-    public int Num { get; set; } = 0;
-    public string Text { get; set; } = "";
+    public QInit QInit { get; set; }
 
     [Required]
     //[RegularExpression(@"^-?[0-2]", ErrorMessage = "Please select an option")]
@@ -149,10 +247,10 @@ public class Question
     public List<NameValue> Answers { get; set; }
     public Alert Alert { get; set; } = new Alert(new QLink("", "", ""));
 
-    public Question(int num, string text)
+    public Question(QInit qInit)
     {
-        Num = num;
-        Text = text;
+        QInit = qInit;
+
         Answers = new List<NameValue>()
         {
             new NameValue(-5, "Please select"),
@@ -213,30 +311,30 @@ public class QLink
     public string Question { get; set; }
 }
 
-public class Shrinkage
+public class ShrinkageRename
 {
-    public Shrinkage()
+    public ShrinkageRename()
     {
         Color pc1 = System.Drawing.ColorTranslator.FromHtml("#335899");
         Color pc2 = System.Drawing.ColorTranslator.FromHtml("#3F6AB7");
         Color pc3 = System.Drawing.ColorTranslator.FromHtml("#7991CE");
         Color pc4 = System.Drawing.ColorTranslator.FromHtml("#B3BEDF");
 
-        ProcessFailure = new Shrink(0, "Process Failure", pc1);
-        InternalTheft = new Shrink(0, "Internal Theft", pc2);
-        ExternalTheft = new Shrink(0, "External Theft", pc3);
-        SupplierFraud = new Shrink(0, "Supplier Fraud", pc4);
+        ProcessFailure = new ShrinkRename(0, "Process Failure", pc1);
+        InternalTheft = new ShrinkRename(0, "Internal Theft", pc2);
+        ExternalTheft = new ShrinkRename(0, "External Theft", pc3);
+        SupplierFraud = new ShrinkRename(0, "Supplier Fraud", pc4);
     }
 
-    public Shrink ProcessFailure { get; set; }
-    public Shrink InternalTheft { get; set; }
-    public Shrink ExternalTheft { get; set; }
-    public Shrink SupplierFraud { get; set; }
+    public ShrinkRename ProcessFailure { get; set; }
+    public ShrinkRename InternalTheft { get; set; }
+    public ShrinkRename ExternalTheft { get; set; }
+    public ShrinkRename SupplierFraud { get; set; }
 }
 
-public class Shrink
+public class ShrinkRename
 {
-    public Shrink(int value, string name, System.Drawing.Color color) 
+    public ShrinkRename(int value, string name, System.Drawing.Color color) 
     { 
         Value = value;
         Name = name;
