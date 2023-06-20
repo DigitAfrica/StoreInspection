@@ -1,5 +1,25 @@
 ﻿namespace Web.Data;
 
+public class QInit
+{
+    public QInit(int qNum, int externalTheft, int internalTheft, int processFailure, int supplierFraud, string question) 
+    {
+        QuestionNumber = qNum;
+        ExternalTheft = externalTheft;
+        InternalTheft = internalTheft;
+        ProcessFailure = processFailure;
+        SupplierFraud = supplierFraud;
+        Question = question;
+    }
+
+    public int QuestionNumber { get; set; }
+    public string Question { get; set; }
+    public int ExternalTheft { get; set; }
+    public int InternalTheft { get; set; }
+    public int ProcessFailure { get; set; }
+    public int SupplierFraud { get; set; }
+}
+
 public class User
 {
     public class Info
