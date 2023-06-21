@@ -22,10 +22,10 @@ public class QInit
 
 public class Shrinkages
 {
-    public Shrinkage ExternalTheft { get; set; }
-    public Shrinkage InternalTheft { get; set; }
-    public Shrinkage ProcessFailure { get; set; }
-    public Shrinkage SupplierFraud { get; set; }
+    public Shrinkage ExternalTheft { get; set; } = new();
+    public Shrinkage InternalTheft { get; set; } = new();
+    public Shrinkage ProcessFailure { get; set; } = new();
+    public Shrinkage SupplierFraud { get; set; } = new();
 }
 
 public class Shrinkage
