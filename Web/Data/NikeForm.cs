@@ -14,7 +14,7 @@ public class NikeForm
         Color bc3 = System.Drawing.ColorTranslator.FromHtml("#8FAADC");
         Color bc4 = System.Drawing.ColorTranslator.FromHtml("#4472C4");
 
-        var qInit = new QSetInitNew.NikeTest();
+        var qInit = new QSetInitCurrent.Nike();
         ListQSet = new List<QSet>
         {
             new QSet("Lodge Security", qInit.LodgeSecurity, bc1),

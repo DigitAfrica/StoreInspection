@@ -1,5 +1,7 @@
 ﻿using ChartJs.Blazor.BarChart;
 using ChartJs.Blazor.Common;
+using ChartJs.Blazor.Common.Axes.Ticks;
+using ChartJs.Blazor.Common.Axes;
 using ChartJs.Blazor.Common.Enums;
 using ChartJs.Blazor.PieChart;
 using ChartJs.Blazor.Util;
@@ -69,7 +71,7 @@ public class Bll
             //var title = new OptionsTitle()
             //{
             //    Display = true,
-            //    Text = "% Developers using Chart.js in Blazor"
+            //    Text = ""
             //};
 
             //_pieConfig.Options = new PieOptions()
@@ -151,7 +153,25 @@ public class Bll
         var options = new BarOptions();
         options.Responsive = true;
         options.Legend = new Legend() { Position = Position.Bottom };
-        
+
+        var scales = new BarScales()
+        {
+            XAxes = new List<CartesianAxis>
+            {
+                new LinearCartesianAxis
+                {
+                    Ticks = new LinearCartesianTicks
+                    {
+                        StepSize = 10,
+                        BeginAtZero = true,
+                        SuggestedMax = 100
+                    }
+                }
+            }
+        };
+
+        options.Scales = scales;
+
         _barConfig.Options = options;
 
         return _barConfig;
