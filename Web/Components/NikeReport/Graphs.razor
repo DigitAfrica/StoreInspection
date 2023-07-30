@@ -39,52 +39,7 @@
                 <h4 class="headText">Shrinkage Barometer</h4>
                 <Chart Config="_pieConfig"></Chart>
                 <br/>
-                <Web.Components.NikeReport.ScoreSummaryGroup.TotalShrinkage shrinkage="report.Shrinkage" />
-                <div>
-                    @{
-                        //var pFC = shrinkage.ProcessFailure.Color;
-                        //var iTC = shrinkage.InternalTheft.Color;
-                        //var eTC = shrinkage.ExternalTheft.Color;
-                        //var sFC = shrinkage.SupplierFraud.Color;
-
-
-                        //var pfcColor = "#" + pFC.R.ToString("X2") + pFC.G.ToString("X2") + pFC.B.ToString("X2");
-                        //var itcColor = "#" + iTC.R.ToString("X2") + iTC.G.ToString("X2") + iTC.B.ToString("X2");
-                        //var etcColor = "#" + eTC.R.ToString("X2") + eTC.G.ToString("X2") + eTC.B.ToString("X2");
-                        //var sfcColor = "#" + sFC.R.ToString("X2") + sFC.G.ToString("X2") + sFC.B.ToString("X2");
-                    }
-                    <div>
-
-                        @*<div class="row">
-                            <div class="col-8"
-                                 style="color:@pfcColor">
-                                @shrinkage.ProcessFailure.Name
-                            </div>
-                            <div class="col-4">@(shrinkage.ProcessFailure.Value)%</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8"
-                                 style="color:@itcColor">
-                                @shrinkage.InternalTheft.Name
-                            </div>
-                            <div class="col-4">@(shrinkage.InternalTheft.Value)%</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8"
-                                 style="color:@etcColor">
-                                @shrinkage.ExternalTheft.Name
-                            </div>
-                            <div class="col-4">@(shrinkage.ExternalTheft.Value)%</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8"
-                                 style="color:@sfcColor">
-                                @shrinkage.SupplierFraud.Name
-                            </div>
-                            <div class="col-4">@(shrinkage.SupplierFraud.Value)%</div>
-                        </div>*@
-                    </div>
-                </div> @*summary of shrinkage*@
+                <Web.Components.NikeReport.ScoreSummaryGroup.TotalShrinkage shrinkage="report.Shrinkage" /> @*summary of shrinkage*@
             </div>
 
             <div class="col-6 outerSet">

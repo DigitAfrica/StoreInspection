@@ -14,7 +14,7 @@ public class NikeForm
         Color bc3 = System.Drawing.ColorTranslator.FromHtml("#8FAADC");
         Color bc4 = System.Drawing.ColorTranslator.FromHtml("#4472C4");
 
-        var qInit = new QSetInitCurrent.Nike();
+        var qInit = new QSetInitCurrent.Nike(); // NikeTest , Nike
         ListQSet = new List<QSet>
         {
             new QSet("Lodge Security", qInit.LodgeSecurity, bc1),
@@ -32,6 +32,7 @@ public class NikeForm
     public int ScoreTotal { get; set; } = 0;
     public int ScoreMax { get; set; } = 0;
     public int ScorePercent { get; set; } = 0;
+    public int ShrinkPercent { get; set; } = 0;
     public Shrinkages TotShrink { get; set; }
 
     public void Sum()
@@ -74,10 +75,10 @@ public class NikeForm
         Shrinkage.ProcessFailure.Value = Shrinkpercent(TotShrink.ProcessFailure);
         Shrinkage.SupplierFraud.Value = Shrinkpercent(TotShrink.SupplierFraud);
 
-        //TotShrink.ExternalTheft.ShrinkPercent = Shrinkpercent(TotShrink.ExternalTheft);
-        //TotShrink.InternalTheft.ShrinkPercent = Shrinkpercent(TotShrink.InternalTheft);
-        //TotShrink.ProcessFailure.ShrinkPercent = Shrinkpercent(TotShrink.ProcessFailure);
-        //TotShrink.SupplierFraud.ShrinkPercent = Shrinkpercent(TotShrink.SupplierFraud);
+        Shrinkage summaryShrink = new();
+        summaryShrink.ShrinkTotal = TotShrink.ExternalTheft.ShrinkTotal + TotShrink.InternalTheft.ShrinkTotal + TotShrink.ProcessFailure.ShrinkTotal + TotShrink.SupplierFraud.ShrinkTotal;
+        summaryShrink.ShrinkMax = TotShrink.ExternalTheft.ShrinkMax + TotShrink.InternalTheft.ShrinkMax + TotShrink.ProcessFailure.ShrinkMax + TotShrink.SupplierFraud.ShrinkMax;
+        ShrinkPercent = Shrinkpercent(summaryShrink);
     }
 
     private int Shrinkpercent(Shrinkage shrinkage)
@@ -132,8 +133,8 @@ public class FHeader
     [Required]
     public string PreviousScore { get; set; }
     
-    [Required]
-    public string CurrentShrinkage { get; set; }
+    //[Required]
+    //public string CurrentShrinkage { get; set; }
     
     [Required]
     public string Address { get; set; }
